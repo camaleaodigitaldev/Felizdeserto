@@ -48,7 +48,7 @@ const services = [
   {
     href: "/fale-conosco",
     label: "Fale\nConosco",
-    color: "bg-brand-gold",
+    color: "bg-amber-500",
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
         d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -107,38 +107,39 @@ interface Props {
 
 export default function FeaturedAndServices({ featured }: Props) {
   return (
-    <section className="py-8 bg-gray-50">
+    <section className="py-10 bg-white">
       <div className="container-site">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
           {/* Featured news - left */}
           <div className="lg:col-span-3">
-            <h2 className="text-sm font-bold text-brand-blue uppercase tracking-wider mb-3 border-l-4 border-brand-green pl-3">
-              Destaque
-            </h2>
+            <div className="flex items-center gap-2 mb-4">
+              <span className="w-1 h-5 rounded-full bg-brand-green" />
+              <h2 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Destaque</h2>
+            </div>
             {featured ? (
-              <Link href={`/noticias/${featured.slug}`} className="group block bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+              <Link href={`/noticias/${featured.slug}`} className="group block bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
                 {featured.cover_image_url && (
                   <div className="relative h-56 sm:h-72 w-full overflow-hidden">
                     <Image
                       src={featured.cover_image_url}
                       alt={featured.title}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     {featured.news_categories && (
-                      <span className="absolute top-3 left-3 bg-brand-green text-white text-xs font-bold px-3 py-1 rounded-full">
+                      <span className="absolute top-3 left-3 bg-brand-green/90 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full">
                         {featured.news_categories.name}
                       </span>
                     )}
                   </div>
                 )}
                 <div className="p-5">
-                  <h3 className="text-xl font-bold text-gray-900 group-hover:text-brand-blue transition-colors leading-snug mb-2">
+                  <h3 className="text-xl font-bold text-gray-900 group-hover:text-brand-blue transition-colors leading-snug mb-2 tracking-tight">
                     {featured.title}
                   </h3>
                   {featured.excerpt && (
-                    <p className="text-gray-500 text-sm line-clamp-2 mb-3">{featured.excerpt}</p>
+                    <p className="text-gray-400 text-sm line-clamp-2 mb-3">{featured.excerpt}</p>
                   )}
                   <span className="text-xs text-gray-400">
                     {featured.published_at
@@ -148,7 +149,7 @@ export default function FeaturedAndServices({ featured }: Props) {
                 </div>
               </Link>
             ) : (
-              <div className="bg-white rounded-xl border border-gray-100 p-8 text-center text-gray-400 text-sm">
+              <div className="bg-gray-50 rounded-2xl border border-gray-100 p-8 text-center text-gray-400 text-sm">
                 Nenhuma notícia publicada ainda.
               </div>
             )}
@@ -156,10 +157,11 @@ export default function FeaturedAndServices({ featured }: Props) {
 
           {/* Services grid - right */}
           <div className="lg:col-span-2">
-            <h2 className="text-sm font-bold text-brand-blue uppercase tracking-wider mb-3 border-l-4 border-brand-green pl-3">
-              Acesso Rápido aos Serviços
-            </h2>
-            <div className="grid grid-cols-5 gap-1.5">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="w-1 h-5 rounded-full bg-brand-blue" />
+              <h2 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Acesso Rápido</h2>
+            </div>
+            <div className="grid grid-cols-5 gap-2">
               {services.map((svc) => {
                 const Tag = svc.external ? "a" : Link;
                 const extraProps = svc.external
@@ -169,14 +171,14 @@ export default function FeaturedAndServices({ featured }: Props) {
                   <Tag
                     key={svc.href}
                     {...(extraProps as object)}
-                    className="flex flex-col items-center text-center p-2 bg-white rounded-lg border border-gray-100 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-150 group"
+                    className="flex flex-col items-center text-center p-2.5 bg-white rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group"
                   >
-                    <div className={`${svc.color} text-white p-2 rounded-lg mb-1.5 group-hover:scale-110 transition-transform`}>
-                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className={`${svc.color} text-white p-2 rounded-xl mb-1.5 group-hover:scale-110 transition-transform duration-200 shadow-sm`}>
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         {svc.icon}
                       </svg>
                     </div>
-                    <span className="text-[10px] font-semibold text-gray-700 leading-tight whitespace-pre-line">
+                    <span className="text-[10px] font-semibold text-gray-600 leading-tight whitespace-pre-line">
                       {svc.label}
                     </span>
                   </Tag>

@@ -42,29 +42,31 @@ const items = [
 
 export default function TransparencyBar() {
   return (
-    <section className="bg-brand-blue py-8">
+    <section className="bg-gradient-to-r from-brand-blue-dark via-brand-blue to-brand-blue-light py-10">
       <div className="container-site">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="h-px flex-1 bg-white/20" />
-          <h2 className="text-white font-semibold text-sm uppercase tracking-widest">
+        <div className="flex items-center gap-4 mb-7">
+          <div className="h-px flex-1 bg-white/15" />
+          <h2 className="text-white/90 font-semibold text-xs uppercase tracking-widest">
             Transparência e Acesso à Informação
           </h2>
-          <div className="h-px flex-1 bg-white/20" />
+          <div className="h-px flex-1 bg-white/15" />
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {items.map((item) => {
             const inner = (
-              <div className="flex flex-col items-center text-center p-4 bg-white/10 hover:bg-white/20 rounded-xl transition-colors group cursor-pointer h-full">
-                <svg
-                  className="w-8 h-8 text-brand-gold mb-2 group-hover:scale-110 transition-transform"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  {item.icon}
-                </svg>
-                <span className="text-white font-semibold text-sm">{item.label}</span>
-                <span className="text-blue-200 text-xs mt-1 hidden sm:block">{item.desc}</span>
+              <div className="flex flex-col items-center text-center p-5 bg-white/10 hover:bg-white/[0.18] border border-white/10 hover:border-white/20 rounded-2xl transition-all duration-200 group cursor-pointer h-full backdrop-blur-sm">
+                <div className="p-3 bg-white/10 rounded-xl mb-3 group-hover:scale-110 transition-transform duration-200">
+                  <svg
+                    className="w-6 h-6 text-brand-gold"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    {item.icon}
+                  </svg>
+                </div>
+                <span className="text-white font-semibold text-sm tracking-tight">{item.label}</span>
+                <span className="text-blue-200/60 text-xs mt-1 hidden sm:block leading-relaxed">{item.desc}</span>
               </div>
             );
 
@@ -86,7 +88,7 @@ export default function TransparencyBar() {
           })}
         </div>
 
-        <p className="text-center text-blue-300 text-xs mt-6">
+        <p className="text-center text-blue-300/50 text-xs mt-7">
           Em cumprimento à Lei de Acesso à Informação — Lei nº 12.527/2011
         </p>
       </div>
