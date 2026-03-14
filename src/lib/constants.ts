@@ -37,7 +37,7 @@ export const NAV_LINKS = [
   },
   { label: "Notícias", href: "/noticias" },
   { label: "Editais", href: "/editais" },
-  { label: "Atos Oficiais", href: "/documentos" },
+  { label: "Documentos", href: "/documentos" },
   { label: "Transparência", href: "/transparencia" },
   { label: "Vídeos", href: "/videos" },
   {
