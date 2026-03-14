@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { NAV_LINKS, SITE } from "@/lib/constants";
 import MobileMenu from "./MobileMenu";
+import { createClient } from "@/lib/supabase/client";
 
 function LiveDate() {
   const [dateStr, setDateStr] = useState("");
@@ -25,10 +26,29 @@ function LiveDate() {
   );
 }
 
+interface Secretaria {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [search, setSearch] = useState("");
   const pathname = usePathname();
+  const [secretarias, setSecretarias] = useState<Secretaria[]>([]);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase
+      .from("secretarias")
+      .select("id, name, slug")
+      .eq("is_active", true)
+      .order("display_order")
+      .then(({ data }) => {
+        if (data) setSecretarias(data as Secretaria[]);
+      });
+  }, []);
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -141,11 +161,39 @@ export default function Header() {
                 )}
               </li>
             ))}
+
+            {/* Secretarias — dynamic submenu */}
+            {secretarias.length > 0 && (
+              <li className="relative group">
+                <button className="flex items-center gap-1 px-4 py-4 text-sm font-medium text-white hover:bg-white/10 transition-colors uppercase tracking-wide h-full">
+                  Secretarias
+                  <svg className="w-3 h-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </button>
+                <ul className="absolute top-full left-0 w-64 bg-white shadow-lg border-t-2 border-brand-green py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
+                  <li>
+                    <Link href="/governo/secretarias"
+                      className="block px-4 py-2.5 text-sm font-semibold text-brand-blue hover:bg-brand-blue hover:text-white transition-colors border-b border-gray-200">
+                      Ver todas as Secretarias
+                    </Link>
+                  </li>
+                  {secretarias.map((sec) => (
+                    <li key={sec.id}>
+                      <Link href={`/governo/secretarias/${sec.slug}`}
+                        className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-brand-blue hover:text-white transition-colors border-b border-gray-100 last:border-0">
+                        {sec.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            )}
           </ul>
         </div>
       </nav>
 
-      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} secretarias={secretarias} />
     </header>
   );
 }

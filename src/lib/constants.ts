@@ -23,7 +23,6 @@ export const NAV_LINKS = [
     children: [
       { label: "Prefeito", href: "/governo/prefeito" },
       { label: "Vice-Prefeito", href: "/governo/vice-prefeito" },
-      { label: "Secretarias", href: "/governo/secretarias" },
     ],
   },
   {
