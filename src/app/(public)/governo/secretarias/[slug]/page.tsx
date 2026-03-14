@@ -221,9 +221,9 @@ export default async function SecretariaDetailPage({ params }: Props) {
                 )}
               </div>
 
-              {/* Contact card */}
+              {/* Contact card — hidden on mobile (shown in main content below) */}
               {(sec.phone || sec.email || sec.address || sec.hours) && (
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-3">
+                <div className="hidden lg:block bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-3">
                   <h3 className="font-semibold text-gray-800 text-sm">Contato</h3>
                   {sec.phone && (
                     <a
@@ -291,7 +291,7 @@ export default async function SecretariaDetailPage({ params }: Props) {
               {hasContent && (
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
                   <h3 className="font-semibold text-gray-800 text-sm mb-3">Nesta página</h3>
-                  <ul className="space-y-2">
+                  <ul className="flex flex-wrap gap-x-4 gap-y-1.5 lg:flex-col lg:gap-x-0 lg:space-y-2">
                     {sec.description && (
                       <li>
                         <a
