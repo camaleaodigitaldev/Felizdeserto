@@ -67,7 +67,7 @@ export default async function AdminDashboardPage() {
           </p>
         </div>
         <Link
-          href="/admin/noticias/novo"
+          href="/admin/noticias/nova"
           className="inline-flex items-center gap-2 bg-[#1a3a6b] hover:bg-[#2a5298] text-white text-sm font-medium px-4 py-2.5 rounded-lg transition-colors duration-150"
         >
           <PlusCircle className="w-4 h-4" />
@@ -118,7 +118,7 @@ export default async function AdminDashboardPage() {
             <Newspaper className="w-10 h-10 text-gray-300 mx-auto mb-3" />
             <p className="text-sm text-gray-500">Nenhuma notícia cadastrada ainda.</p>
             <Link
-              href="/admin/noticias/novo"
+              href="/admin/noticias/nova"
               className="inline-flex items-center gap-2 mt-4 text-sm text-[#1a3a6b] font-medium hover:underline"
             >
               <PlusCircle className="w-4 h-4" />

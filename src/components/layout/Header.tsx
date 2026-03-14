@@ -132,63 +132,65 @@ export default function Header() {
                 Início
               </Link>
             </li>
-            {NAV_LINKS.map((item) => (
-              <li key={item.href} className="relative group">
-                {item.children ? (
-                  <>
-                    <button className="flex items-center gap-1 px-4 py-4 text-sm font-medium text-white hover:bg-white/10 transition-colors uppercase tracking-wide h-full">
+            {NAV_LINKS.map((item, index) => (
+              <>
+                <li key={item.href} className="relative group">
+                  {item.children ? (
+                    <>
+                      <button className="flex items-center gap-1 px-4 py-4 text-sm font-medium text-white hover:bg-white/10 transition-colors uppercase tracking-wide h-full">
+                        {item.label}
+                        <svg className="w-3 h-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/>
+                        </svg>
+                      </button>
+                      <ul className="absolute top-full left-0 w-52 bg-white shadow-lg border-t-2 border-brand-green py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
+                        {item.children.map((child) => (
+                          <li key={child.href}>
+                            <Link href={child.href}
+                              className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-brand-blue hover:text-white transition-colors border-b border-gray-100 last:border-0">
+                              {child.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : (
+                    <Link href={item.href}
+                      className={`flex items-center px-4 py-4 text-sm font-medium uppercase tracking-wide transition-colors h-full ${pathname === item.href ? "bg-white/10 text-white" : "text-white hover:bg-white/10"}`}>
                       {item.label}
+                    </Link>
+                  )}
+                </li>
+
+                {/* Secretarias vem logo após Governo (index 0) */}
+                {index === 0 && secretarias.length > 0 && (
+                  <li key="secretarias" className="relative group">
+                    <button className="flex items-center gap-1 px-4 py-4 text-sm font-medium text-white hover:bg-white/10 transition-colors uppercase tracking-wide h-full">
+                      Secretarias
                       <svg className="w-3 h-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/>
                       </svg>
                     </button>
-                    <ul className="absolute top-full left-0 w-52 bg-white shadow-lg border-t-2 border-brand-green py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
-                      {item.children.map((child) => (
-                        <li key={child.href}>
-                          <Link href={child.href}
+                    <ul className="absolute top-full left-0 w-64 bg-white shadow-lg border-t-2 border-brand-green py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
+                      <li>
+                        <Link href="/governo/secretarias"
+                          className="block px-4 py-2.5 text-sm font-semibold text-brand-blue hover:bg-brand-blue hover:text-white transition-colors border-b border-gray-200">
+                          Ver todas as Secretarias
+                        </Link>
+                      </li>
+                      {secretarias.map((sec) => (
+                        <li key={sec.id}>
+                          <Link href={`/governo/secretarias/${sec.slug}`}
                             className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-brand-blue hover:text-white transition-colors border-b border-gray-100 last:border-0">
-                            {child.label}
+                            {sec.name}
                           </Link>
                         </li>
                       ))}
                     </ul>
-                  </>
-                ) : (
-                  <Link href={item.href}
-                    className={`flex items-center px-4 py-4 text-sm font-medium uppercase tracking-wide transition-colors h-full ${pathname === item.href ? "bg-white/10 text-white" : "text-white hover:bg-white/10"}`}>
-                    {item.label}
-                  </Link>
-                )}
-              </li>
-            ))}
-
-            {/* Secretarias — dynamic submenu */}
-            {secretarias.length > 0 && (
-              <li className="relative group">
-                <button className="flex items-center gap-1 px-4 py-4 text-sm font-medium text-white hover:bg-white/10 transition-colors uppercase tracking-wide h-full">
-                  Secretarias
-                  <svg className="w-3 h-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/>
-                  </svg>
-                </button>
-                <ul className="absolute top-full left-0 w-64 bg-white shadow-lg border-t-2 border-brand-green py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
-                  <li>
-                    <Link href="/governo/secretarias"
-                      className="block px-4 py-2.5 text-sm font-semibold text-brand-blue hover:bg-brand-blue hover:text-white transition-colors border-b border-gray-200">
-                      Ver todas as Secretarias
-                    </Link>
                   </li>
-                  {secretarias.map((sec) => (
-                    <li key={sec.id}>
-                      <Link href={`/governo/secretarias/${sec.slug}`}
-                        className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-brand-blue hover:text-white transition-colors border-b border-gray-100 last:border-0">
-                        {sec.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            )}
+                )}
+              </>
+            ))}
           </ul>
         </div>
       </nav>

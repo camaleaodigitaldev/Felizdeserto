@@ -25,6 +25,7 @@ export const NAV_LINKS = [
       { label: "Vice-Prefeito", href: "/governo/vice-prefeito" },
     ],
   },
+  // "Secretarias" é inserida dinamicamente no Header após "Governo"
   {
     label: "Município",
     href: "/municipio",
@@ -38,14 +39,8 @@ export const NAV_LINKS = [
   { label: "Editais", href: "/editais" },
   { label: "Transparência", href: "/transparencia" },
   { label: "Vídeos", href: "/videos" },
-  {
-    label: "Mais",
-    href: "#",
-    children: [
-      { label: "Telefones Úteis", href: "/telefones-uteis" },
-      { label: "Fale Conosco", href: "/fale-conosco" },
-    ],
-  },
+  { label: "Telefones Úteis", href: "/telefones-uteis" },
+  { label: "Fale Conosco", href: "/fale-conosco" },
 ];
 
 export const EDITAL_CATEGORIES: Record<string, string> = {
