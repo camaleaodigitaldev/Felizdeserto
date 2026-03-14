@@ -8,6 +8,7 @@ import {
   Newspaper,
   FileText,
   FolderOpen,
+  Image,
   Video,
   Phone,
   Building2,
@@ -43,6 +44,11 @@ const NAV_ITEMS: NavItem[] = [
     label: "Documentos",
     href: "/admin/documentos",
     icon: <FolderOpen className="w-5 h-5" />,
+  },
+  {
+    label: "Banners",
+    href: "/admin/banners",
+    icon: <Image className="w-5 h-5" />,
   },
   {
     label: "Vídeos",

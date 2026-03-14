@@ -6,8 +6,8 @@ export const dynamic = "force-dynamic";
 
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 const ALLOWED_PDF_TYPES = ["application/pdf"];
-const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
-const MAX_PDF_SIZE = 20 * 1024 * 1024;  // 20MB
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB (banners may be large)
+const MAX_PDF_SIZE = 20 * 1024 * 1024;   // 20MB
 
 export async function POST(req: NextRequest) {
   // Verify authentication

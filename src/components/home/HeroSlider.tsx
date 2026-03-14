@@ -28,16 +28,18 @@ export default function HeroSlider({ banners }: Props) {
           {banners.map((banner) => (
             <div
               key={banner.id}
-              className="relative flex-[0_0_100%] min-w-0 h-[420px] sm:h-[520px] lg:h-[600px]"
+              className="relative flex-[0_0_100%] min-w-0 h-[420px] sm:h-[520px] lg:h-[600px] bg-brand-blue"
             >
-              <Image
-                src={banner.image_url}
-                alt={banner.title}
-                fill
-                className="object-cover"
-                priority
-                sizes="100vw"
-              />
+              {banner.image_url && (
+                <Image
+                  src={banner.image_url}
+                  alt={banner.title}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="100vw"
+                />
+              )}
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-r from-brand-blue/80 via-brand-blue/50 to-transparent" />
 
