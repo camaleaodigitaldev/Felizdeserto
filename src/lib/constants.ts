@@ -39,8 +39,14 @@ export const NAV_LINKS = [
   { label: "Editais", href: "/editais" },
   { label: "Transparência", href: "/transparencia" },
   { label: "Vídeos", href: "/videos" },
-  { label: "Telefones Úteis", href: "/telefones-uteis" },
-  { label: "Fale Conosco", href: "/fale-conosco" },
+  {
+    label: "Fale Conosco",
+    href: "/fale-conosco",
+    children: [
+      { label: "Fale Conosco", href: "/fale-conosco" },
+      { label: "Telefones Úteis", href: "/telefones-uteis" },
+    ],
+  },
 ];
 
 export const EDITAL_CATEGORIES: Record<string, string> = {
