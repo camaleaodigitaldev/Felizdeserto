@@ -38,10 +38,10 @@ create table profiles (
 );
 
 -- Trigger: cria perfil automaticamente ao criar usuário
-create or replace function handle_new_user()
-returns trigger language plpgsql security definer as $$
+create or replace function public.handle_new_user()
+returns trigger language plpgsql security definer set search_path = '' as $$
 begin
-  insert into profiles (id, full_name, role)
+  insert into public.profiles (id, full_name, role)
   values (
     new.id,
     coalesce(new.raw_user_meta_data->>'full_name', new.email),
