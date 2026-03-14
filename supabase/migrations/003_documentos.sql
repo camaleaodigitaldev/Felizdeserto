@@ -18,12 +18,8 @@ CREATE TABLE documents (
   updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_documents_category      ON documents(category);
-CREATE INDEX idx_documents_published     ON documents(published_date DESC) WHERE is_active = TRUE;
-CREATE INDEX idx_documents_year          ON documents(EXTRACT(YEAR FROM published_date)::INTEGER);
-CREATE INDEX idx_documents_search        ON documents USING GIN(
-  TO_TSVECTOR('portuguese', title || ' ' || COALESCE(number, '') || ' ' || COALESCE(description, ''))
-);
+CREATE INDEX idx_documents_category  ON documents(category);
+CREATE INDEX idx_documents_published ON documents(published_date DESC) WHERE is_active = TRUE;
 
 -- RLS
 ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
