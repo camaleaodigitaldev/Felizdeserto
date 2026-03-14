@@ -82,3 +82,55 @@
 .prose-content h2 { color: #1a3a6b; }
 .prose-content h3 { color: #1a3a6b; }
 .prose-content a { color: #1a3a6b; }
+
+/* =============================================
+   ACESSIBILIDADE VISUAL
+   ============================================= */
+
+/* 1. Alto Contraste
+   Usa overrides de cor diretos — sem filter — para não
+   quebrar position: sticky / fixed do header.          */
+html.a11y-contrast body {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+html.a11y-contrast *:not(script):not(style):not(.a11y-bar) {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #444 !important;
+}
+html.a11y-contrast a,
+html.a11y-contrast a * {
+  color: #ffff00 !important;
+}
+html.a11y-contrast button:not([class*="a11y"]),
+html.a11y-contrast [role="button"] {
+  background-color: #111 !important;
+  color: #fff !important;
+  border: 1px solid #666 !important;
+}
+html.a11y-contrast input,
+html.a11y-contrast textarea,
+html.a11y-contrast select {
+  background-color: #111 !important;
+  color: #fff !important;
+  border-color: #666 !important;
+}
+html.a11y-contrast img {
+  filter: contrast(1.2) brightness(0.9);
+}
+html.a11y-contrast svg {
+  color: #fff !important;
+  stroke: #fff !important;
+}
+
+/* 2. Ocultar Imagens */
+html.a11y-hide-images img,
+html.a11y-hide-images picture,
+html.a11y-hide-images video,
+html.a11y-hide-images [style*="background-image"] {
+  visibility: hidden !important;
+}
+
+/* 3. Escala de cinza — aplicada via overlay no componente React
+   (mix-blend-mode: color com fundo branco, sem quebrar fixed/sticky) */
