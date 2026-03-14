@@ -10,9 +10,9 @@ import type { Metadata } from "next";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "Documentos Institucionais",
+  title: "Atos Oficiais",
   description:
-    "Acesse o Diário Oficial, Leis Municipais, Decretos, Portarias e demais documentos da Prefeitura de Feliz Deserto/AL.",
+    "Acesse o Diário Oficial, Leis Municipais, Decretos, Portarias, Prestação de Contas e demais atos oficiais da Prefeitura de Feliz Deserto/AL.",
 };
 
 interface Props {
@@ -140,11 +140,11 @@ export default async function DocumentosPage({ searchParams }: Props) {
 
   return (
     <>
-      <Breadcrumbs crumbs={[{ label: "Transparência", href: "/transparencia" }, { label: "Documentos Institucionais" }]} />
+      <Breadcrumbs crumbs={[{ label: "Atos Oficiais" }]} />
 
       <div className="page-header">
         <div className="container-site">
-          <h1 className="text-3xl font-bold tracking-tight">Documentos Institucionais</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Atos Oficiais</h1>
           <p className="text-blue-200 mt-1 text-sm">
             Diário Oficial, Leis, Decretos, Portarias, Prestação de Contas e demais atos normativos
           </p>

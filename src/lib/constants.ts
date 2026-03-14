@@ -37,14 +37,8 @@ export const NAV_LINKS = [
   },
   { label: "Notícias", href: "/noticias" },
   { label: "Editais", href: "/editais" },
-  {
-    label: "Transparência",
-    href: "/transparencia",
-    children: [
-      { label: "Transparência", href: "/transparencia" },
-      { label: "Documentos Institucionais", href: "/documentos" },
-    ],
-  },
+  { label: "Atos Oficiais", href: "/documentos" },
+  { label: "Transparência", href: "/transparencia" },
   { label: "Vídeos", href: "/videos" },
   {
     label: "Fale Conosco",
