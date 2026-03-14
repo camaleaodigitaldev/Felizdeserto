@@ -214,6 +214,11 @@ export default async function SecretariaDetailPage({ params }: Props) {
                   Secretário(a)
                 </p>
                 <p className="font-bold text-gray-900 text-sm leading-snug">{sec.secretary_name}</p>
+                {sec.secretary_bio && (
+                  <p className="text-xs text-gray-400 mt-2 leading-relaxed text-left">
+                    {sec.secretary_bio}
+                  </p>
+                )}
               </div>
 
               {/* Contact card */}

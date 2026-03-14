@@ -132,6 +132,7 @@ export interface Database {
           logo_url: string | null;
           mission: string | null;
           news_category_id: number | null;
+          secretary_bio: string | null;
         };
         Insert: Omit<Database["public"]["Tables"]["secretarias"]["Row"], "id" | "created_at" | "updated_at"> & {
           id?: number;

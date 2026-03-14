@@ -108,6 +108,19 @@ export default function EditSecretariaPage() {
               placeholder="Ex: Promovendo saúde e qualidade de vida para todos..."
             />
           </div>
+          <div>
+            <label className="label-base">
+              Experiência / Mini-bio
+              <span className="text-gray-400 font-normal ml-1">(aparece abaixo do nome no mini-site)</span>
+            </label>
+            <textarea
+              {...register("secretary_bio")}
+              className="input-base resize-none"
+              rows={3}
+              placeholder="Ex: Pedagoga com 15 anos de experiência na rede pública, especialista em gestão educacional e políticas de inclusão..."
+            />
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="label-base">Telefone</label>
