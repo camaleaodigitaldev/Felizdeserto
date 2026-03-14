@@ -126,6 +126,12 @@ export interface Database {
           is_active: boolean;
           created_at: string;
           updated_at: string;
+          // Mini-site fields (migration 002)
+          cover_image_url: string | null;
+          accent_color: string | null;
+          logo_url: string | null;
+          mission: string | null;
+          news_category_id: number | null;
         };
         Insert: Omit<Database["public"]["Tables"]["secretarias"]["Row"], "id" | "created_at" | "updated_at"> & {
           id?: number;
