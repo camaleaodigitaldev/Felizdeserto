@@ -31,10 +31,10 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
             <Image
-              src="/logo.png"
+              src="/logo.svg"
               alt="Prefeitura de Feliz Deserto"
-              width={200}
-              height={70}
+              width={220}
+              height={72}
               className="h-14 w-auto object-contain"
               priority
             />
