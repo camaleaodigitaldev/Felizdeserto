@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import HeroSlider from "@/components/home/HeroSlider";
-import QuickLinks from "@/components/home/QuickLinks";
+import FeaturedAndServices from "@/components/home/FeaturedAndServices";
 import LatestNews from "@/components/home/LatestNews";
 import TransparencyBar from "@/components/home/TransparencyBar";
 import InstagramFeed from "@/components/home/InstagramFeed";
@@ -30,7 +30,7 @@ export default async function HomePage() {
       .select("*, news_categories(*), profiles(full_name)")
       .eq("status", "published")
       .order("published_at", { ascending: false })
-      .limit(6),
+      .limit(7),
     supabase
       .from("secretarias")
       .select("*")
@@ -44,14 +44,15 @@ export default async function HomePage() {
   ]);
 
   const news = (newsData ?? []) as unknown as NewsWithCategory[];
+  const [featured, ...rest] = news;
 
   return (
     <>
       <Header />
       <main>
         <HeroSlider banners={banners ?? []} />
-        <QuickLinks />
-        <LatestNews news={news} />
+        <FeaturedAndServices featured={featured ?? null} />
+        <LatestNews news={rest} />
         <TransparencyBar />
         <SecretariasStrip secretarias={secretarias ?? []} />
         {instagramPosts && instagramPosts.length > 0 && (
