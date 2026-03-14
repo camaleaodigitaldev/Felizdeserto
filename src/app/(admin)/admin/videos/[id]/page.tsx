@@ -45,7 +45,8 @@ export default function EditVideoPage() {
       const youtubeId = extractYoutubeId(data.youtube_url ?? "");
       if (!youtubeId) throw new Error("URL do YouTube inválida");
       const thumbnail = getYoutubeThumbnail(youtubeId);
-      const { error: err } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: err } = await (supabase as any)
         .from("videos")
         .update({ ...data, youtube_id: youtubeId, thumbnail_url: thumbnail })
         .eq("id", id);

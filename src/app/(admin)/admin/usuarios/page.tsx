@@ -247,7 +247,8 @@ export default function AdminUsuariosPage() {
     updates: { role: UserRole; is_active: boolean }
   ) => {
     const supabase = createClient();
-    const { error: updateError } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: updateError } = await (supabase as any)
       .from("profiles")
       .update({
         role: updates.role,

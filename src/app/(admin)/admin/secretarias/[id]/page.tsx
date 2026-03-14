@@ -30,7 +30,8 @@ export default function EditSecretariaPage() {
     setError("");
     setSaving(true);
     try {
-      const { error: err } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: err } = await (supabase as any)
         .from("secretarias")
         .update({ ...data, updated_at: new Date().toISOString() })
         .eq("id", id);
