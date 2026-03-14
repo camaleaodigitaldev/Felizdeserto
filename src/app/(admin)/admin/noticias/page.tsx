@@ -100,7 +100,7 @@ export default async function AdminNoticiasPage({ searchParams }: AdminNoticiasP
           </p>
         </div>
         <Link
-          href="/admin/noticias/novo"
+          href="/admin/noticias/nova"
           className="inline-flex items-center gap-2 bg-[#1a3a6b] hover:bg-[#2a5298] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors duration-150"
         >
           <PlusCircle className="w-4 h-4" />
@@ -163,7 +163,7 @@ export default async function AdminNoticiasPage({ searchParams }: AdminNoticiasP
               </p>
             )}
             <Link
-              href="/admin/noticias/novo"
+              href="/admin/noticias/nova"
               className="inline-flex items-center gap-2 mt-5 bg-[#1a3a6b] hover:bg-[#2a5298] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors"
             >
               <PlusCircle className="w-4 h-4" />
