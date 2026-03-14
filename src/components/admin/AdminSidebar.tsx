@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Newspaper,
   FileText,
+  FolderOpen,
   Video,
   Phone,
   Building2,
@@ -37,6 +38,11 @@ const NAV_ITEMS: NavItem[] = [
     label: "Editais",
     href: "/admin/editais",
     icon: <FileText className="w-5 h-5" />,
+  },
+  {
+    label: "Documentos",
+    href: "/admin/documentos",
+    icon: <FolderOpen className="w-5 h-5" />,
   },
   {
     label: "Vídeos",

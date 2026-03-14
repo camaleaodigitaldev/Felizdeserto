@@ -233,6 +233,28 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["banners"]["Insert"]>;
       };
+      documents: {
+        Row: {
+          id: string;
+          title: string;
+          number: string | null;
+          category: string;
+          description: string | null;
+          file_url: string | null;
+          file_name: string | null;
+          published_date: string;
+          published_by: string | null;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["documents"]["Row"], "id" | "created_at" | "updated_at"> & {
+          id?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["documents"]["Insert"]>;
+      };
       site_settings: {
         Row: {
           key: string;
@@ -274,6 +296,7 @@ export type UsefulPhone = Database["public"]["Tables"]["useful_phones"]["Row"];
 export type InstagramPost = Database["public"]["Tables"]["instagram_cache"]["Row"];
 export type Banner = Database["public"]["Tables"]["banners"]["Row"];
 export type SiteSetting = Database["public"]["Tables"]["site_settings"]["Row"];
+export type Document = Database["public"]["Tables"]["documents"]["Row"];
 
 // News com joins
 export type NewsWithCategory = News & {

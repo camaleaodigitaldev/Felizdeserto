@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     const { filename, contentType, bucket } = body as {
       filename: string;
       contentType: string;
-      bucket: "news-images" | "editais-pdfs" | "banners" | "profiles";
+      bucket: "news-images" | "editais-pdfs" | "banners" | "profiles" | "documentos";
     };
 
     // Validate file type
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (bucket === "editais-pdfs" && !isPdf) {
+    if ((bucket === "editais-pdfs" || bucket === "documentos") && !isPdf) {
       return NextResponse.json(
         { error: "Apenas PDFs são permitidos neste bucket" },
         { status: 400 }

@@ -37,7 +37,14 @@ export const NAV_LINKS = [
   },
   { label: "Notícias", href: "/noticias" },
   { label: "Editais", href: "/editais" },
-  { label: "Transparência", href: "/transparencia" },
+  {
+    label: "Transparência",
+    href: "/transparencia",
+    children: [
+      { label: "Transparência", href: "/transparencia" },
+      { label: "Documentos Institucionais", href: "/documentos" },
+    ],
+  },
   { label: "Vídeos", href: "/videos" },
   {
     label: "Fale Conosco",
@@ -91,3 +98,16 @@ export const NEWS_STATUS_COLORS: Record<string, string> = {
 };
 
 export const ITEMS_PER_PAGE = 12;
+
+export const DOCUMENT_CATEGORIES: Record<string, { label: string; color: string; bg: string }> = {
+  diario_oficial:   { label: "Diário Oficial",       color: "text-blue-800",   bg: "bg-blue-100"   },
+  lei:              { label: "Lei Municipal",         color: "text-indigo-800", bg: "bg-indigo-100" },
+  decreto:          { label: "Decreto",               color: "text-purple-800", bg: "bg-purple-100" },
+  portaria:         { label: "Portaria",              color: "text-orange-800", bg: "bg-orange-100" },
+  prestacao_contas: { label: "Prestação de Contas",   color: "text-green-800",  bg: "bg-green-100"  },
+  resolucao:        { label: "Resolução",             color: "text-teal-800",   bg: "bg-teal-100"   },
+  convenio:         { label: "Convênio",              color: "text-sky-800",    bg: "bg-sky-100"    },
+  contrato:         { label: "Contrato",              color: "text-rose-800",   bg: "bg-rose-100"   },
+  ata:              { label: "Ata de Reunião",        color: "text-amber-800",  bg: "bg-amber-100"  },
+  outro:            { label: "Outros",                color: "text-gray-800",   bg: "bg-gray-100"   },
+};
