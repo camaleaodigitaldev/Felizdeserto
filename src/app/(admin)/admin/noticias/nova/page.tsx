@@ -20,6 +20,8 @@ const schema = z.object({
   category_id: z.string().optional(),
   status: z.enum(["draft", "scheduled", "published"]),
   scheduled_for: z.string().optional(),
+  published_at: z.string().optional(),
+  author_id: z.string().optional(),
   tags: z.string().optional(),
   meta_title: z.string().optional(),
   meta_description: z.string().optional(),
@@ -27,10 +29,16 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
+interface Profile {
+  id: string;
+  full_name: string;
+}
+
 export default function NewsCreatePage() {
   const router = useRouter();
   const supabase = createClient();
   const [categories, setCategories] = useState<NewsCategory[]>([]);
+  const [profiles, setProfiles] = useState<Profile[]>([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -50,8 +58,14 @@ export default function NewsCreatePage() {
   const statusValue = watch("status");
 
   useEffect(() => {
-    supabase.from("news_categories").select("*").order("name").then(({ data }) => {
-      if (data) setCategories(data);
+    Promise.all([
+      supabase.from("news_categories").select("*").order("name"),
+      supabase.from("profiles").select("id, full_name").eq("is_active", true).order("full_name"),
+      supabase.auth.getUser(),
+    ]).then(([{ data: cats }, { data: profs }, { data: userData }]) => {
+      if (cats) setCategories(cats);
+      if (profs) setProfiles(profs);
+      if (userData.user) setValue("author_id", userData.user.id);
     });
   }, []);
 
@@ -65,7 +79,7 @@ export default function NewsCreatePage() {
     setError("");
     setSaving(true);
     try {
-      const { data: user } = await supabase.auth.getUser();
+      const { data: userData } = await supabase.auth.getUser();
       const payload = {
         title: data.title,
         slug: data.slug,
@@ -73,12 +87,18 @@ export default function NewsCreatePage() {
         body: data.body,
         cover_image_url: data.cover_image_url || null,
         category_id: data.category_id ? Number(data.category_id) : null,
-        author_id: user.user?.id ?? null,
+        author_id: data.author_id || userData.user?.id || null,
         status: data.status,
-        published_at: data.status === "published" ? new Date().toISOString() : null,
-        scheduled_for: data.status === "scheduled" && data.scheduled_for
-          ? new Date(data.scheduled_for).toISOString()
-          : null,
+        published_at:
+          data.status === "published"
+            ? data.published_at
+              ? new Date(data.published_at).toISOString()
+              : new Date().toISOString()
+            : null,
+        scheduled_for:
+          data.status === "scheduled" && data.scheduled_for
+            ? new Date(data.scheduled_for).toISOString()
+            : null,
         tags: data.tags ? data.tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
         meta_title: data.meta_title || null,
         meta_description: data.meta_description || null,
@@ -199,16 +219,37 @@ export default function NewsCreatePage() {
             </div>
           </div>
 
-          {statusValue === "scheduled" && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="label-base">Data e hora de publicação</label>
-              <input
-                {...register("scheduled_for")}
-                type="datetime-local"
-                className="input-base"
-              />
+              <label className="label-base">Autor</label>
+              <select {...register("author_id")} className="input-base">
+                <option value="">Sem autor</option>
+                {profiles.map((p) => (
+                  <option key={p.id} value={p.id}>{p.full_name}</option>
+                ))}
+              </select>
             </div>
-          )}
+
+            <div>
+              <label className="label-base">
+                {statusValue === "scheduled" ? "Data de agendamento" : "Data de publicação"}
+              </label>
+              {statusValue === "scheduled" ? (
+                <input
+                  {...register("scheduled_for")}
+                  type="datetime-local"
+                  className="input-base"
+                />
+              ) : (
+                <input
+                  {...register("published_at")}
+                  type="datetime-local"
+                  className="input-base"
+                  placeholder="Deixe em branco para usar a data/hora atual"
+                />
+              )}
+            </div>
+          </div>
 
           <div>
             <label className="label-base">Tags (separadas por vírgula)</label>

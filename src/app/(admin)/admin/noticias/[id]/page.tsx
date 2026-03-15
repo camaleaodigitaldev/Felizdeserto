@@ -10,6 +10,17 @@ import type { News, NewsCategory } from "@/types/database";
 import { NEWS_STATUS_LABELS } from "@/lib/constants";
 import { slugify } from "@/lib/slugify";
 
+interface Profile {
+  id: string;
+  full_name: string;
+}
+
+/** Converte ISO string para valor compatível com datetime-local input */
+function toDatetimeLocal(iso?: string | null): string {
+  if (!iso) return "";
+  return new Date(iso).toISOString().slice(0, 16);
+}
+
 export default function EditNoticiaPage() {
   const router = useRouter();
   const params = useParams();
@@ -19,6 +30,7 @@ export default function EditNoticiaPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [categories, setCategories] = useState<NewsCategory[]>([]);
+  const [profiles, setProfiles] = useState<Profile[]>([]);
 
   const { register, control, handleSubmit, reset, watch, setValue } = useForm<Partial<News>>();
   const title = watch("title", "");
@@ -27,9 +39,18 @@ export default function EditNoticiaPage() {
     Promise.all([
       supabase.from("news").select("*").eq("id", id).single(),
       supabase.from("news_categories").select("*").order("name"),
-    ]).then(([{ data: news }, { data: cats }]) => {
-      if (news) reset(news);
+      supabase.from("profiles").select("id, full_name").eq("is_active", true).order("full_name"),
+    ]).then(([{ data: news }, { data: cats }, { data: profs }]) => {
+      if (news) {
+        reset({
+          ...news,
+          // datetime-local inputs precisam de formato "YYYY-MM-DDTHH:mm"
+          published_at: toDatetimeLocal(news.published_at) as unknown as typeof news.published_at,
+          scheduled_for: toDatetimeLocal(news.scheduled_for) as unknown as typeof news.scheduled_for,
+        });
+      }
       if (cats) setCategories(cats);
+      if (profs) setProfiles(profs);
       setLoading(false);
     });
   }, [id]);
@@ -38,10 +59,20 @@ export default function EditNoticiaPage() {
     setError("");
     setSaving(true);
     try {
+      const payload = {
+        ...data,
+        published_at: data.published_at
+          ? new Date(data.published_at as unknown as string).toISOString()
+          : null,
+        scheduled_for: data.scheduled_for
+          ? new Date(data.scheduled_for as unknown as string).toISOString()
+          : null,
+        updated_at: new Date().toISOString(),
+      };
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { error: err } = await (supabase as any)
         .from("news")
-        .update({ ...data, updated_at: new Date().toISOString() })
+        .update(payload)
         .eq("id", id);
       if (err) throw new Error(err.message);
       router.push("/admin/noticias");
@@ -66,6 +97,7 @@ export default function EditNoticiaPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
+          <h2 className="font-semibold text-gray-800 border-b pb-3">Conteúdo</h2>
           <div>
             <label className="label-base">Título</label>
             <input
@@ -84,29 +116,6 @@ export default function EditNoticiaPage() {
           <div>
             <label className="label-base">Resumo</label>
             <textarea {...register("summary")} className="input-base resize-none" rows={2} />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="label-base">Categoria</label>
-              <select {...register("category_id", { valueAsNumber: true })} className="input-base">
-                <option value="">Sem categoria</option>
-                {categories.map((c) => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="label-base">Status</label>
-              <select {...register("status")} className="input-base">
-                {Object.entries(NEWS_STATUS_LABELS).map(([val, label]) => (
-                  <option key={val} value={val}>{label}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div>
-            <label className="label-base">Publicar em (agendamento)</label>
-            <input {...register("scheduled_for")} type="datetime-local" className="input-base" />
           </div>
         </div>
 
@@ -139,6 +148,59 @@ export default function EditNoticiaPage() {
               />
             )}
           />
+        </div>
+
+        <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
+          <h2 className="font-semibold text-gray-800 border-b pb-3">Publicação</h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="label-base">Categoria</label>
+              <select {...register("category_id", { valueAsNumber: true })} className="input-base">
+                <option value="">Sem categoria</option>
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>{c.name}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="label-base">Status</label>
+              <select {...register("status")} className="input-base">
+                {Object.entries(NEWS_STATUS_LABELS).map(([val, label]) => (
+                  <option key={val} value={val}>{label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="label-base">Autor</label>
+              <select {...register("author_id")} className="input-base">
+                <option value="">Sem autor</option>
+                {profiles.map((p) => (
+                  <option key={p.id} value={p.id}>{p.full_name}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="label-base">Data de publicação</label>
+              <input
+                {...register("published_at" as keyof Partial<News>)}
+                type="datetime-local"
+                className="input-base"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="label-base">Publicar em (agendamento)</label>
+            <input
+              {...register("scheduled_for" as keyof Partial<News>)}
+              type="datetime-local"
+              className="input-base"
+            />
+          </div>
         </div>
 
         <div className="flex gap-3">
