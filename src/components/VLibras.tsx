@@ -38,19 +38,22 @@ export default function VLibras() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       new (window as any).VLibras.Widget("https://vlibras.gov.br/app");
 
-      // Força posição via inline style (biblioteca sobrescreve CSS)
-      const forcePosition = () => {
-        const btn = document.querySelector("[vw-access-button]") as HTMLElement | null;
-        if (btn) {
-          btn.style.setProperty("top", "136px", "important");
-          btn.style.setProperty("bottom", "auto", "important");
-          btn.style.setProperty("right", "0px", "important");
-          btn.style.setProperty("position", "fixed", "important");
-        }
+      const pin = (btn: HTMLElement) => {
+        btn.style.setProperty("top", "136px", "important");
+        btn.style.setProperty("bottom", "auto", "important");
+        btn.style.setProperty("right", "0px", "important");
+        btn.style.setProperty("position", "fixed", "important");
       };
-      forcePosition();
-      setTimeout(forcePosition, 300);
-      setTimeout(forcePosition, 1000);
+
+      // Espera o botão existir, depois observa mudanças de style
+      const interval = setInterval(() => {
+        const btn = document.querySelector("[vw-access-button]") as HTMLElement | null;
+        if (!btn) return;
+        clearInterval(interval);
+        pin(btn);
+        const observer = new MutationObserver(() => pin(btn));
+        observer.observe(btn, { attributes: true, attributeFilter: ["style"] });
+      }, 100);
     };
     document.body.appendChild(script);
   }, []);

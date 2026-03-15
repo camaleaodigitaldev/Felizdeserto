@@ -196,12 +196,12 @@ export default function AccessibilityWidget() {
       {/* Botão flutuante — mesmo estilo do VLibras */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-12 h-12 bg-[#1351b4] text-white rounded-2xl flex items-center justify-center shadow-lg hover:bg-[#0e3d8a] transition-colors"
+        className="w-9 h-9 bg-[#1351b4] text-white rounded-xl flex items-center justify-center shadow-md hover:bg-[#0e3d8a] transition-colors"
         aria-label="Opções de acessibilidade"
         aria-expanded={open}
         aria-haspopup="true"
       >
-        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="12" cy="4" r="2" />
           <path d="M10.5 7.5C9 7.5 8 8.5 8 10v4l2 .5V22h4V14.5l2-.5V10c0-1.5-1-2.5-2.5-2.5h-3z"/>
           <path d="M9 10h6" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round"/>
