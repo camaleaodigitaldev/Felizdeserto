@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
     const supabase = createAdminClient();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (supabase as any).from("analytics_pageviews").insert({
+    const { error } = await (supabase as any).from("analytics_pageviews").insert({
       path,
       referrer: referrer || null,
       country,
@@ -94,6 +94,11 @@ export async function POST(request: NextRequest) {
       browser: parseBrowser(ua),
       os: parseOS(ua),
     });
+
+    if (error) {
+      console.error("[analytics/track] insert error:", error.message, error.code);
+      return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json({ ok: true });
   } catch {
