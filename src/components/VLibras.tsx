@@ -38,21 +38,31 @@ export default function VLibras() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       new (window as any).VLibras.Widget("https://vlibras.gov.br/app");
 
-      const pin = (btn: HTMLElement) => {
-        btn.style.setProperty("top", "136px", "important");
-        btn.style.setProperty("bottom", "auto", "important");
-        btn.style.setProperty("right", "0px", "important");
-        btn.style.setProperty("position", "fixed", "important");
+      const pin = () => {
+        const vw = document.querySelector("[vw]") as HTMLElement | null;
+        const btn = document.querySelector("[vw-access-button]") as HTMLElement | null;
+        if (vw) {
+          vw.style.setProperty("position", "fixed", "important");
+          vw.style.setProperty("top", "0", "important");
+          vw.style.setProperty("bottom", "auto", "important");
+          vw.style.setProperty("right", "0", "important");
+        }
+        if (btn) {
+          btn.style.setProperty("position", "fixed", "important");
+          btn.style.setProperty("top", "136px", "important");
+          btn.style.setProperty("bottom", "auto", "important");
+          btn.style.setProperty("right", "0", "important");
+        }
       };
 
-      // Espera o botão existir, depois observa mudanças de style
+      // Espera os elementos existirem, depois observa mudanças de style
       const interval = setInterval(() => {
         const btn = document.querySelector("[vw-access-button]") as HTMLElement | null;
         if (!btn) return;
         clearInterval(interval);
-        pin(btn);
-        const observer = new MutationObserver(() => pin(btn));
-        observer.observe(btn, { attributes: true, attributeFilter: ["style"] });
+        pin();
+        const observer = new MutationObserver(pin);
+        observer.observe(document.querySelector("[vw]")!, { attributes: true, subtree: true, attributeFilter: ["style"] });
       }, 100);
     };
     document.body.appendChild(script);
