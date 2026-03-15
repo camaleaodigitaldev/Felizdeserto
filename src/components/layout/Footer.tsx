@@ -13,7 +13,7 @@ export default function Footer() {
           {/* Logo + Info */}
           <div className="lg:col-span-2">
             <Image
-              src="/logo.png"
+              src="https://desohrdjqujmmplawntj.supabase.co/storage/v1/object/public/banners/logo-2022feliznovo.png"
               alt="Prefeitura de Feliz Deserto"
               width={180}
               height={60}
@@ -125,7 +125,15 @@ export default function Footer() {
             © {year} Prefeitura Municipal de Feliz Deserto/AL. Todos os direitos reservados.
           </p>
           <p>
-            Lei de Acesso à Informação — Lei nº 12.527/2011
+            Desenvolvido por{" "}
+            <a
+              href="https://wa.me/5582998439385"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-brand-gold hover:text-white transition-colors font-medium"
+            >
+              Camaleão Digital
+            </a>
           </p>
         </div>
       </div>
