@@ -192,10 +192,10 @@ export default function Header() {
       {/* ── Barra de navegação ── */}
       <nav className="bg-brand-blue hidden md:block" aria-label="Menu principal">
         <div className="container-site">
-          <ul className="flex items-stretch">
+          <ul className="flex items-center gap-0.5 py-1.5 px-1">
             <li>
               <Link href="/"
-                className={`flex items-center px-5 py-3.5 text-sm font-semibold tracking-tight transition-colors ${pathname === "/" ? "bg-white/20 text-white" : "text-white/80 hover:text-white hover:bg-white/10"}`}>
+                className={`flex items-center px-4 py-2 text-sm font-semibold tracking-tight rounded-xl transition-all duration-200 ${pathname === "/" ? "bg-white text-brand-blue shadow-sm" : "text-white/80 hover:text-white hover:bg-white/15"}`}>
                 Início
               </Link>
             </li>
@@ -204,7 +204,7 @@ export default function Header() {
                 <li key={item.href} className="relative group">
                   {item.children ? (
                     <>
-                      <button className="flex items-center gap-1.5 px-4 py-3.5 text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors h-full">
+                      <button className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 h-full ${pathname.startsWith(item.href) ? "bg-white text-brand-blue shadow-sm" : "text-white/80 hover:text-white hover:bg-white/15"}`}>
                         {item.label}
                         <svg className="w-3 h-3 mt-0.5 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/>
@@ -223,7 +223,7 @@ export default function Header() {
                     </>
                   ) : (
                     <Link href={item.href}
-                      className={`flex items-center px-4 py-3.5 text-sm font-medium tracking-tight transition-colors h-full ${pathname === item.href ? "bg-white/20 text-white" : "text-white/80 hover:text-white hover:bg-white/10"}`}>
+                      className={`flex items-center px-4 py-2 text-sm font-medium tracking-tight rounded-xl transition-all duration-200 ${pathname === item.href ? "bg-white text-brand-blue shadow-sm" : "text-white/80 hover:text-white hover:bg-white/15"}`}>
                       {item.label}
                     </Link>
                   )}
@@ -232,7 +232,7 @@ export default function Header() {
                 {/* Secretarias vem logo após Governo (index 0) */}
                 {index === 0 && secretarias.length > 0 && (
                   <li key="secretarias" className="relative group">
-                    <button className="flex items-center gap-1.5 px-4 py-3.5 text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors h-full">
+                    <button className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white/80 hover:text-white hover:bg-white/15 rounded-xl transition-all duration-200 h-full">
                       Secretarias
                       <svg className="w-3 h-3 mt-0.5 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/>
