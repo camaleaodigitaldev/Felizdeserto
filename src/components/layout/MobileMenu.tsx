@@ -49,6 +49,13 @@ export default function MobileMenu({ open, onClose, secretarias = [] }: Props) {
         </div>
 
         <nav className="flex-1 overflow-y-auto p-4 space-y-1">
+          <Link
+            href="/"
+            onClick={onClose}
+            className="block px-3 py-2.5 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50"
+          >
+            Início
+          </Link>
           {NAV_LINKS.map((item, index) => (
             <>
               <div key={item.href}>

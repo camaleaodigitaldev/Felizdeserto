@@ -25,23 +25,30 @@ export default async function NoticiasPage({ searchParams }: Props) {
 
   const supabase = await createClient();
 
-  const [{ data: categories }, { data: newsData, count }] = await Promise.all([
-    supabase.from("news_categories").select("*").order("name"),
-    (() => {
-      let query = supabase
-        .from("news")
-        .select("*, news_categories(*), profiles(full_name)", { count: "exact" })
-        .eq("status", "published")
-        .order("published_at", { ascending: false })
-        .range(offset, offset + ITEMS_PER_PAGE - 1);
+  // Busca categorias primeiro para resolver o id pelo slug
+  const { data: categoriesRaw } = await supabase
+    .from("news_categories")
+    .select("*")
+    .order("name");
 
-      if (categoria) {
-        query = query.eq("news_categories.slug", categoria);
-      }
+  const categories = (categoriesRaw ?? []) as unknown as NewsCategory[];
 
-      return query;
-    })(),
-  ]);
+  const selectedCategory = categoria
+    ? categories.find((c) => c.slug === categoria)
+    : null;
+
+  let newsQuery = supabase
+    .from("news")
+    .select("*, news_categories(*), profiles(full_name)", { count: "exact" })
+    .eq("status", "published")
+    .order("published_at", { ascending: false })
+    .range(offset, offset + ITEMS_PER_PAGE - 1);
+
+  if (selectedCategory) {
+    newsQuery = newsQuery.eq("category_id", selectedCategory.id);
+  }
+
+  const { data: newsData, count } = await newsQuery;
 
   const news = (newsData ?? []) as unknown as NewsWithCategory[];
   const totalPages = Math.ceil((count ?? 0) / ITEMS_PER_PAGE);
