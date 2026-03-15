@@ -119,7 +119,7 @@ export default function MobileMenu({ open, onClose, secretarias = [] }: Props) {
                       {secretarias.map((sec) => (
                         <Link
                           key={sec.id}
-                          href={`/governo/secretarias/${sec.slug}`}
+                          href={`/${sec.slug}`}
                           onClick={onClose}
                           className="block px-3 py-2 text-sm text-gray-600 rounded-lg hover:bg-brand-blue hover:text-white transition-colors"
                         >

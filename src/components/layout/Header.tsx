@@ -247,7 +247,7 @@ export default function Header() {
                       </li>
                       {secretarias.map((sec) => (
                         <li key={sec.id}>
-                          <Link href={`/governo/secretarias/${sec.slug}`}
+                          <Link href={`/${sec.slug}`}
                             className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-brand-blue transition-colors rounded-lg mx-1">
                             {sec.name}
                           </Link>

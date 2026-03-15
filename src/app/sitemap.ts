@@ -39,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const secretariaPages: MetadataRoute.Sitemap = (secretarias ?? []).map((item) => ({
-    url: `${SITE.url}/governo/secretarias/${item.slug}`,
+    url: `${SITE.url}/${item.slug}`,
     lastModified: new Date(item.updated_at),
     changeFrequency: "monthly",
     priority: 0.6,

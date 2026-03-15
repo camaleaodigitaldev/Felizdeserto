@@ -141,7 +141,7 @@ export default function SecretariasStrip({ secretarias }: Props) {
             return (
               <Link
                 key={sec.id}
-                href={`/governo/secretarias/${sec.slug}`}
+                href={`/${sec.slug}`}
                 className="flex flex-col items-center text-center p-4 rounded-2xl border border-gray-100 hover:border-brand-blue/30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 group bg-white"
               >
                 {/* Icon badge */}
