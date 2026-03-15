@@ -61,6 +61,7 @@ export default function EditNoticiaPage() {
     try {
       const payload = {
         ...data,
+        author_id: (data.author_id as unknown as string) || null,
         published_at: data.published_at
           ? new Date(data.published_at as unknown as string).toISOString()
           : null,
