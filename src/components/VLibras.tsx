@@ -53,8 +53,6 @@ export default function VLibras() {
           btn.style.setProperty("top", "auto", "important");
           btn.style.setProperty("right", "16px", "important");
           btn.style.setProperty("left", "auto", "important");
-          btn.style.setProperty("width", "48px", "important");
-          btn.style.setProperty("height", "48px", "important");
         }
       };
 
