@@ -43,15 +43,17 @@ export default function VLibras() {
         const btn = document.querySelector("[vw-access-button]") as HTMLElement | null;
         if (vw) {
           vw.style.setProperty("position", "fixed", "important");
-          vw.style.setProperty("top", "0", "important");
-          vw.style.setProperty("bottom", "auto", "important");
+          vw.style.setProperty("bottom", "0", "important");
+          vw.style.setProperty("top", "auto", "important");
           vw.style.setProperty("right", "0", "important");
         }
         if (btn) {
           btn.style.setProperty("position", "fixed", "important");
-          btn.style.setProperty("top", "136px", "important");
-          btn.style.setProperty("bottom", "auto", "important");
-          btn.style.setProperty("right", "0", "important");
+          btn.style.setProperty("bottom", "24px", "important");
+          btn.style.setProperty("top", "auto", "important");
+          btn.style.setProperty("right", "4px", "important");
+          btn.style.setProperty("width", "48px", "important");
+          btn.style.setProperty("height", "48px", "important");
         }
       };
 
