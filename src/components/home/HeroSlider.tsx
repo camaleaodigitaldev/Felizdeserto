@@ -46,9 +46,9 @@ export default function HeroSlider({ banners }: Props) {
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
 
               {/* Content — canto inferior esquerdo */}
-              <div className="absolute inset-0 flex items-end pb-10 sm:pb-14">
+              <div className="absolute inset-0 flex items-end pb-6 sm:pb-8">
                 <div className="container-site">
-                  <div className="max-w-lg animate-slide-up">
+                  <div className="max-w-xl animate-slide-up text-left">
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-3">
                       {banner.title}
                     </h2>
