@@ -37,6 +37,20 @@ export default function VLibras() {
     script.onload = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       new (window as any).VLibras.Widget("https://vlibras.gov.br/app");
+
+      // Força posição via inline style (biblioteca sobrescreve CSS)
+      const forcePosition = () => {
+        const btn = document.querySelector("[vw-access-button]") as HTMLElement | null;
+        if (btn) {
+          btn.style.setProperty("top", "176px", "important");
+          btn.style.setProperty("bottom", "auto", "important");
+          btn.style.setProperty("right", "4px", "important");
+          btn.style.setProperty("position", "fixed", "important");
+        }
+      };
+      forcePosition();
+      setTimeout(forcePosition, 300);
+      setTimeout(forcePosition, 1000);
     };
     document.body.appendChild(script);
   }, []);
