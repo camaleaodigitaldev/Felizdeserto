@@ -28,7 +28,7 @@ export default function HeroSlider({ banners }: Props) {
           {banners.map((banner) => (
             <div
               key={banner.id}
-              className="relative flex-[0_0_100%] min-w-0 h-[420px] sm:h-[520px] lg:h-[600px] bg-brand-blue"
+              className="relative flex-[0_0_100%] min-w-0 h-[56vw] sm:h-[520px] lg:h-[600px] bg-brand-blue"
             >
               {banner.image_url && (
                 <Image
@@ -49,16 +49,16 @@ export default function HeroSlider({ banners }: Props) {
               <div className="absolute inset-0 flex items-end justify-start pb-6 sm:pb-8">
                 <div className="container-site w-full">
                   <div className="max-w-xl animate-slide-up text-left">
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-3">
+                    <h2 className="text-xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-2 sm:mb-3">
                       {banner.title}
                     </h2>
                     {banner.subtitle && (
-                      <p className="text-blue-100 text-lg mb-6">{banner.subtitle}</p>
+                      <p className="text-blue-100 text-sm sm:text-lg mb-3 sm:mb-6">{banner.subtitle}</p>
                     )}
                     {banner.link_url && banner.link_label && (
                       <Link
                         href={banner.link_url}
-                        className="btn-secondary text-base px-6 py-3"
+                        className="btn-secondary text-xs sm:text-base px-4 py-2 sm:px-6 sm:py-3"
                         {...(banner.link_url.startsWith("http")
                           ? { target: "_blank", rel: "noopener noreferrer" }
                           : {})}
