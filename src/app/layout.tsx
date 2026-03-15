@@ -3,6 +3,7 @@ import "./globals.css";
 import { SITE } from "@/lib/constants";
 import VLibras from "@/components/VLibras";
 import AccessibilityWidget from "@/components/layout/AccessibilityWidget";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -64,6 +65,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className="bg-white text-gray-800 antialiased">
+        <AnalyticsTracker />
         {children}
         <AccessibilityWidget />
         <VLibras />

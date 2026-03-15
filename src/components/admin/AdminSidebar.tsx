@@ -15,6 +15,7 @@ import {
   Settings,
   Users,
   ExternalLink,
+  BarChart2,
 } from "lucide-react";
 
 interface NavItem {
@@ -69,6 +70,12 @@ const NAV_ITEMS: NavItem[] = [
     label: "Configurações",
     href: "/admin/configuracoes",
     icon: <Settings className="w-5 h-5" />,
+  },
+  {
+    label: "Analytics",
+    href: "/admin/analytics",
+    icon: <BarChart2 className="w-5 h-5" />,
+    adminOnly: true,
   },
   {
     label: "Usuários",
