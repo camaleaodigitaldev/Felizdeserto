@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SITE } from "@/lib/constants";
+import VLibras from "@/components/VLibras";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -61,7 +62,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className="bg-white text-gray-800 antialiased">{children}</body>
+      <body className="bg-white text-gray-800 antialiased">
+        {children}
+        <VLibras />
+      </body>
     </html>
   );
 }
