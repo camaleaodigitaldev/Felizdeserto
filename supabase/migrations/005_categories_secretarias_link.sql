@@ -40,7 +40,7 @@ UPDATE secretarias SET news_category_id = (
 ) WHERE name ILIKE '%Obras%' AND news_category_id IS NULL;
 
 UPDATE secretarias SET news_category_id = (
-  SELECT id FROM news_categories WHERE slug = 'eventos' LIMIT 1
+  SELECT id FROM news_categories WHERE slug = 'turismo-e-eventos' LIMIT 1
 ) WHERE (name ILIKE '%Turismo%' OR name ILIKE '%Eventos%') AND news_category_id IS NULL;
 
 UPDATE secretarias SET news_category_id = (

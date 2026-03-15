@@ -8,7 +8,7 @@ insert into news_categories (name, slug, color) values
   ('Saúde',               'saude',                '#16a34a'),
   ('Educação',            'educacao',             '#f59e0b'),
   ('Obras',               'obras',                '#64748b'),
-  ('Eventos',             'eventos',              '#8b5cf6'),
+  ('Turismo e Eventos',   'turismo-e-eventos',    '#8b5cf6'),
   ('Assistência Social',  'assistencia-social',   '#ec4899'),
   ('Agricultura',         'agricultura',          '#84cc16');
 
