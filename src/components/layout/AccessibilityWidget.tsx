@@ -153,10 +153,10 @@ export default function AccessibilityWidget() {
   ];
 
   return (
-    <div ref={ref} className="fixed bottom-[248px] right-4 z-[60] flex items-end justify-end">
+    <div ref={ref} className="fixed top-[120px] right-1 z-[60] flex items-end justify-end">
       {/* Painel — abre para cima e para a esquerda */}
       {open && (
-        <div className="absolute bottom-14 right-1 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden w-52 animate-fade-in">
+        <div className="absolute top-14 right-0 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden w-52 animate-fade-in">
           <div className="bg-brand-blue px-4 py-2.5 flex items-center gap-2">
             <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm-1 5h2l1 4 3 1-1 2-3-1v6h-2v-6l-3 1-1-2 3-1 1-4z"/>

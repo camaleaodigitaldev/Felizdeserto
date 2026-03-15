@@ -83,10 +83,11 @@
 .prose-content h3 { color: #1a3a6b; }
 .prose-content a { color: #1a3a6b; }
 
-/* VLibras — posiciona e margem da borda direita */
+/* VLibras — lado superior direito, abaixo do botão de acessibilidade */
 [vw-access-button] {
-  bottom: 180px !important;
-  right: 16px !important;
+  top: 176px !important;
+  bottom: auto !important;
+  right: 4px !important;
 }
 
 /* =============================================
