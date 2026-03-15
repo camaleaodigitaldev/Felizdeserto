@@ -153,10 +153,10 @@ export default function AccessibilityWidget() {
   ];
 
   return (
-    <div ref={ref} className="fixed left-0 top-1/3 -translate-y-1/2 z-[60] flex items-start">
-      {/* Painel */}
+    <div ref={ref} className="fixed bottom-[72px] right-0 z-[60] flex items-end justify-end">
+      {/* Painel — abre para cima e para a esquerda */}
       {open && (
-        <div className="ml-10 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden w-52 animate-fade-in">
+        <div className="absolute bottom-14 right-1 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden w-52 animate-fade-in">
           <div className="bg-brand-blue px-4 py-2.5 flex items-center gap-2">
             <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm-1 5h2l1 4 3 1-1 2-3-1v6h-2v-6l-3 1-1-2 3-1 1-4z"/>
@@ -193,16 +193,15 @@ export default function AccessibilityWidget() {
         </div>
       )}
 
-      {/* Botão flutuante */}
+      {/* Botão flutuante — mesmo estilo do VLibras */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-10 h-10 bg-brand-blue text-white rounded-r-xl flex items-center justify-center shadow-lg hover:bg-[#1e4a87] transition-colors"
+        className="w-12 h-12 bg-[#1351b4] text-white rounded-tl-2xl flex items-center justify-center shadow-lg hover:bg-[#0e3d8a] transition-colors"
         aria-label="Opções de acessibilidade"
         aria-expanded={open}
         aria-haspopup="true"
       >
-        {/* Ícone pessoa com acessibilidade */}
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="12" cy="4" r="2" />
           <path d="M10.5 7.5C9 7.5 8 8.5 8 10v4l2 .5V22h4V14.5l2-.5V10c0-1.5-1-2.5-2.5-2.5h-3z"/>
           <path d="M9 10h6" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round"/>
