@@ -87,7 +87,8 @@
 [vw-access-button] {
   bottom: 24px !important;
   top: auto !important;
-  right: 4px !important;
+  right: 16px !important;
+  left: auto !important;
   width: 48px !important;
   height: 48px !important;
 }
