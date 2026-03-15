@@ -157,11 +157,16 @@ export default function FeaturedAndServices({ featured }: Props) {
 
           {/* Services grid - right */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="w-1 h-5 rounded-full bg-brand-blue" />
-              <h2 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Acesso Rápido</h2>
+            <div className="mb-5">
+              <div className="flex items-center gap-2 mb-1">
+                <svg className="w-5 h-5 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                <h2 className="text-xl font-bold text-gray-800">Acesso Rápido aos Serviços</h2>
+              </div>
+              <p className="text-sm text-gray-400 ml-7">Clique nos ícones abaixo e tenha acesso rápido</p>
             </div>
-            <div className="grid grid-cols-5 gap-3">
+            <div className="grid grid-cols-4 gap-3">
               {services.map((svc) => {
                 const Tag = svc.external ? "a" : Link;
                 const extraProps = svc.external
@@ -171,14 +176,17 @@ export default function FeaturedAndServices({ featured }: Props) {
                   <Tag
                     key={svc.href}
                     {...(extraProps as object)}
-                    className="flex flex-col items-center text-center py-3 px-1.5 bg-white rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group"
+                    className="flex flex-col items-center text-center py-4 px-2 bg-gray-100 rounded-xl hover:bg-gray-200 hover:-translate-y-0.5 transition-all duration-200 group"
                   >
-                    <div className={`${svc.color} text-white w-11 h-11 flex items-center justify-center rounded-full mb-2 group-hover:scale-110 transition-transform duration-200 shadow-sm`}>
-                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        {svc.icon}
-                      </svg>
-                    </div>
-                    <span className="text-[11px] font-semibold text-gray-600 leading-tight whitespace-pre-line">
+                    <svg
+                      className="w-9 h-9 text-green-600 mb-2.5 group-hover:scale-110 transition-transform duration-200"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      {svc.icon}
+                    </svg>
+                    <span className="text-xs font-medium text-gray-600 leading-tight whitespace-pre-line">
                       {svc.label}
                     </span>
                   </Tag>

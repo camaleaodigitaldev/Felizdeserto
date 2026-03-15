@@ -83,6 +83,11 @@
 .prose-content h3 { color: #1a3a6b; }
 .prose-content a { color: #1a3a6b; }
 
+/* VLibras — posiciona o botão mais acima na tela */
+[vw-access-button] {
+  bottom: 180px !important;
+}
+
 /* =============================================
    ACESSIBILIDADE VISUAL
    ============================================= */
