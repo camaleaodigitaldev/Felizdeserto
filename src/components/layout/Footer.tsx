@@ -13,7 +13,7 @@ export default function Footer() {
           {/* Logo + Info */}
           <div className="lg:col-span-2">
             <Image
-              src="https://desohrdjqujmmplawntj.supabase.co/storage/v1/object/public/banners/logo-2022feliznovo.png"
+              src="https://desohrdjqujmmplawntj.supabase.co/storage/v1/object/public/banners/logo-2022feliznovonomebranco.png"
               alt="Prefeitura de Feliz Deserto"
               width={180}
               height={60}
