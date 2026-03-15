@@ -109,10 +109,10 @@ export default function FeaturedAndServices({ featured }: Props) {
   return (
     <section className="py-10 bg-white">
       <div className="container-site">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[56%_44%] gap-8">
 
           {/* Featured news - left */}
-          <div className="lg:col-span-3">
+          <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="w-1 h-5 rounded-full bg-brand-green" />
               <h2 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Destaque</h2>
@@ -156,12 +156,12 @@ export default function FeaturedAndServices({ featured }: Props) {
           </div>
 
           {/* Services grid - right */}
-          <div className="lg:col-span-2">
+          <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="w-1 h-5 rounded-full bg-brand-blue" />
               <h2 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Acesso Rápido</h2>
             </div>
-            <div className="grid grid-cols-5 gap-2">
+            <div className="grid grid-cols-5 gap-3">
               {services.map((svc) => {
                 const Tag = svc.external ? "a" : Link;
                 const extraProps = svc.external
@@ -171,14 +171,14 @@ export default function FeaturedAndServices({ featured }: Props) {
                   <Tag
                     key={svc.href}
                     {...(extraProps as object)}
-                    className="flex flex-col items-center text-center p-2.5 bg-white rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group"
+                    className="flex flex-col items-center text-center py-3 px-1.5 bg-white rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group"
                   >
-                    <div className={`${svc.color} text-white p-2 rounded-xl mb-1.5 group-hover:scale-110 transition-transform duration-200 shadow-sm`}>
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className={`${svc.color} text-white w-11 h-11 flex items-center justify-center rounded-full mb-2 group-hover:scale-110 transition-transform duration-200 shadow-sm`}>
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         {svc.icon}
                       </svg>
                     </div>
-                    <span className="text-[10px] font-semibold text-gray-600 leading-tight whitespace-pre-line">
+                    <span className="text-[11px] font-semibold text-gray-600 leading-tight whitespace-pre-line">
                       {svc.label}
                     </span>
                   </Tag>
