@@ -42,9 +42,9 @@ export default function VLibras() {
       const forcePosition = () => {
         const btn = document.querySelector("[vw-access-button]") as HTMLElement | null;
         if (btn) {
-          btn.style.setProperty("top", "176px", "important");
+          btn.style.setProperty("top", "136px", "important");
           btn.style.setProperty("bottom", "auto", "important");
-          btn.style.setProperty("right", "4px", "important");
+          btn.style.setProperty("right", "0px", "important");
           btn.style.setProperty("position", "fixed", "important");
         }
       };
