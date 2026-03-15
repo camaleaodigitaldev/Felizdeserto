@@ -12,9 +12,14 @@ export default async function AdminSecretariasPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Secretarias</h1>
-        <p className="text-gray-500 text-sm mt-1">{secretarias?.length ?? 0} secretarias</p>
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Secretarias</h1>
+          <p className="text-gray-500 text-sm mt-1">{secretarias?.length ?? 0} secretarias</p>
+        </div>
+        <Link href="/admin/secretarias/nova" className="btn-primary text-sm">
+          + Nova Secretaria
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

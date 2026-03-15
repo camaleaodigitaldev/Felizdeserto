@@ -15,6 +15,7 @@ export default function EditSecretariaPage() {
   const supabase = createClient();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
   const [categories, setCategories] = useState<NewsCategory[]>([]);
   const [accentPreview, setAccentPreview] = useState("#1a3a6b");
@@ -40,6 +41,21 @@ export default function EditSecretariaPage() {
       setLoading(false);
     });
   }, [id]);
+
+  async function handleDelete() {
+    if (!confirm("Tem certeza que deseja excluir esta secretaria? Esta ação não pode ser desfeita.")) return;
+    setDeleting(true);
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: err } = await (supabase as any).from("secretarias").delete().eq("id", id);
+      if (err) throw new Error(err.message);
+      router.push("/admin/secretarias");
+      router.refresh();
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Erro ao excluir");
+      setDeleting(false);
+    }
+  }
 
   async function onSubmit(data: Partial<Secretaria>) {
     setError("");
@@ -69,7 +85,17 @@ export default function EditSecretariaPage() {
           <h1 className="text-2xl font-bold text-gray-900">Editar Secretaria</h1>
           <p className="text-sm text-gray-400 mt-0.5">Configure o mini-site desta secretaria</p>
         </div>
-        <button onClick={() => router.back()} className="btn-outline text-sm">← Voltar</button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleDelete}
+            disabled={deleting}
+            className="px-4 py-2 text-sm font-semibold text-red-600 border border-red-200 rounded-xl hover:bg-red-50 transition-colors disabled:opacity-50"
+          >
+            {deleting ? "Excluindo..." : "Excluir"}
+          </button>
+          <button onClick={() => router.back()} className="btn-outline text-sm">← Voltar</button>
+        </div>
       </div>
 
       {error && (
