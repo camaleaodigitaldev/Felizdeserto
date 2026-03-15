@@ -17,7 +17,7 @@ export default function Footer() {
               alt="Prefeitura de Feliz Deserto"
               width={180}
               height={60}
-              className="h-14 w-auto object-contain brightness-0 invert mb-5"
+              className="h-14 w-auto object-contain mb-5"
             />
             <p className="text-blue-200/80 text-sm leading-relaxed max-w-sm">
               Portal oficial da Prefeitura Municipal de Feliz Deserto, Alagoas.{" "}
