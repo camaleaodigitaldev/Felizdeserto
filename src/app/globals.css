@@ -141,3 +141,30 @@ html.a11y-hide-images [style*="background-image"] {
 html.a11y-grayscale {
   filter: grayscale(1);
 }
+
+/* 4. Inverter cores — re-inverte imagens e vídeos para não distorcer */
+html.a11y-invert {
+  filter: invert(1) hue-rotate(180deg);
+}
+html.a11y-invert img,
+html.a11y-invert video,
+html.a11y-invert picture {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* 5. Destacar links */
+html.a11y-links a {
+  outline: 2px solid var(--brand-blue) !important;
+  outline-offset: 2px !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
+}
+
+/* 6. Animação de entrada do painel */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.15s ease-out both;
+}

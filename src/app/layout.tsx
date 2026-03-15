@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SITE } from "@/lib/constants";
 import VLibras from "@/components/VLibras";
+import AccessibilityWidget from "@/components/layout/AccessibilityWidget";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -64,6 +65,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className="bg-white text-gray-800 antialiased">
         {children}
+        <AccessibilityWidget />
         <VLibras />
       </body>
     </html>

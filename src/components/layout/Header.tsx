@@ -8,16 +8,6 @@ import { NAV_LINKS, SITE } from "@/lib/constants";
 import MobileMenu from "./MobileMenu";
 import { createClient } from "@/lib/supabase/client";
 
-const A11Y_KEY = "fd_a11y";
-interface A11yState { contrast: boolean; hideImages: boolean; grayscale: boolean; }
-const A11Y_DEFAULT: A11yState = { contrast: false, hideImages: false, grayscale: false };
-
-function applyA11yClasses(s: A11yState) {
-  document.documentElement.classList.toggle("a11y-contrast", s.contrast);
-  document.documentElement.classList.toggle("a11y-hide-images", s.hideImages);
-  document.documentElement.classList.toggle("a11y-grayscale", s.grayscale);
-}
-
 function LiveDate() {
   const [dateStr, setDateStr] = useState("");
   useEffect(() => {
@@ -47,7 +37,6 @@ export default function Header() {
   const [search, setSearch] = useState("");
   const pathname = usePathname();
   const [secretarias, setSecretarias] = useState<Secretaria[]>([]);
-  const [a11y, setA11y] = useState<A11yState>(A11Y_DEFAULT);
 
   useEffect(() => {
     const supabase = createClient();
@@ -60,24 +49,6 @@ export default function Header() {
         if (data) setSecretarias(data as Secretaria[]);
       });
   }, []);
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(A11Y_KEY);
-      const initial = saved ? { ...A11Y_DEFAULT, ...JSON.parse(saved) } : A11Y_DEFAULT;
-      setA11y(initial);
-      applyA11yClasses(initial);
-    } catch { /* ignore */ }
-  }, []);
-
-  function toggleA11y(key: keyof A11yState) {
-    setA11y((prev) => {
-      const next = { ...prev, [key]: !prev[key] };
-      localStorage.setItem(A11Y_KEY, JSON.stringify(next));
-      applyA11yClasses(next);
-      return next;
-    });
-  }
 
   return (
     <header className="bg-white sticky top-0 z-50 border-b border-gray-100 shadow-sm">
@@ -94,58 +65,12 @@ export default function Header() {
             <LiveDate />
           </div>
 
-          {/* Direita: acessibilidade + redes + botões + busca */}
+          {/* Direita: redes + botões + busca */}
           <div className="hidden md:flex flex-col items-end gap-2.5">
-            {/* Linha 1: acessibilidade + redes */}
+            {/* Linha 1: redes */}
             <div className="flex items-center gap-4 text-xs text-gray-400">
-              <span className="flex items-center gap-1.5" role="toolbar" aria-label="Opções de acessibilidade">
-                <span>Acessibilidade</span>
-                {/* Alto contraste */}
-                <button
-                  onClick={() => toggleA11y("contrast")}
-                  aria-pressed={a11y.contrast}
-                  aria-label={a11y.contrast ? "Desativar alto contraste" : "Alto contraste"}
-                  title={a11y.contrast ? "Desativar alto contraste" : "Alto contraste"}
-                  className={`p-1 rounded-lg transition-colors ${a11y.contrast ? "bg-brand-blue text-white" : "hover:bg-gray-100 hover:text-brand-blue"}`}
-                >
-                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M12 2a10 10 0 0 1 0 20V2z"/>
-                  </svg>
-                </button>
-                {/* Ocultar imagens */}
-                <button
-                  onClick={() => toggleA11y("hideImages")}
-                  aria-pressed={a11y.hideImages}
-                  aria-label={a11y.hideImages ? "Exibir imagens" : "Ocultar imagens"}
-                  title={a11y.hideImages ? "Exibir imagens" : "Ocultar imagens"}
-                  className={`p-1 rounded-lg transition-colors ${a11y.hideImages ? "bg-brand-blue text-white" : "hover:bg-gray-100 hover:text-brand-blue"}`}
-                >
-                  {a11y.hideImages ? (
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <line x1="2" y1="2" x2="22" y2="22"/><path d="M10.41 10.41a2 2 0 1 0 2.83 2.83"/><path d="M6.37 6.37A9.87 9.87 0 0 0 3 12s3 7 9 7a9.86 9.86 0 0 0 5.63-1.75"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c6 0 9 8 9 8a18.5 18.5 0 0 1-2.16 3.19"/>
-                    </svg>
-                  ) : (
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-                    </svg>
-                  )}
-                </button>
-                {/* Escala de cinza */}
-                <button
-                  onClick={() => toggleA11y("grayscale")}
-                  aria-pressed={a11y.grayscale}
-                  aria-label={a11y.grayscale ? "Desativar escala de cinza" : "Escala de cinza"}
-                  title={a11y.grayscale ? "Desativar escala de cinza" : "Escala de cinza"}
-                  className={`p-1 rounded-lg transition-colors ${a11y.grayscale ? "bg-brand-blue text-white" : "hover:bg-gray-100 hover:text-brand-blue"}`}
-                >
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 2a10 10 0 0 1 0 20" fill="currentColor" fillOpacity="0.25" stroke="none"/>
-                  </svg>
-                </button>
-              </span>
-              <div className="w-px h-3.5 bg-gray-200" />
+              <span className="flex items-center gap-1.5">
+                <span>Redes Sociais</span>
               <span className="flex items-center gap-1.5">
                 <span>Redes Sociais</span>
                 <a href="https://www.facebook.com/prefeituradefelizdeserto" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-1 rounded-lg hover:bg-gray-100 hover:text-brand-blue transition-colors">
