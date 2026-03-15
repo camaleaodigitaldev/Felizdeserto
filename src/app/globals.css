@@ -132,5 +132,7 @@ html.a11y-hide-images [style*="background-image"] {
   visibility: hidden !important;
 }
 
-/* 3. Escala de cinza — aplicada via overlay no componente React
-   (mix-blend-mode: color com fundo branco, sem quebrar fixed/sticky) */
+/* 3. Escala de cinza */
+html.a11y-grayscale {
+  filter: grayscale(1);
+}

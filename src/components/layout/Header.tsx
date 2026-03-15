@@ -15,6 +15,7 @@ const A11Y_DEFAULT: A11yState = { contrast: false, hideImages: false, grayscale:
 function applyA11yClasses(s: A11yState) {
   document.documentElement.classList.toggle("a11y-contrast", s.contrast);
   document.documentElement.classList.toggle("a11y-hide-images", s.hideImages);
+  document.documentElement.classList.toggle("a11y-grayscale", s.grayscale);
 }
 
 function LiveDate() {
@@ -265,13 +266,7 @@ export default function Header() {
 
       <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} secretarias={secretarias} />
 
-      {/* Grayscale overlay — mix-blend-mode:color não quebra sticky/fixed */}
-      {a11y.grayscale && (
-        <div
-          aria-hidden="true"
-          style={{ position: "fixed", inset: 0, zIndex: 99998, pointerEvents: "none", background: "#fff", mixBlendMode: "color" }}
-        />
-      )}
+
     </header>
   );
 }
