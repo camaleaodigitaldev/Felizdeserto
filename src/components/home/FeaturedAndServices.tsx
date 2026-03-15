@@ -26,7 +26,7 @@ const services = [
     ),
   },
   {
-    href: "/diario-oficial",
+    href: "/documentos?tipo=diario_oficial&ano=2026",
     label: "Diário\nOficial",
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
@@ -34,7 +34,7 @@ const services = [
     ),
   },
   {
-    href: "/leis-municipais",
+    href: "/documentos?tipo=lei",
     label: "Leis\nMunicipais",
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}

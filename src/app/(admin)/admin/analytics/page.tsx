@@ -12,6 +12,8 @@ interface PageviewRow {
   country: string | null;
   country_code: string | null;
   city: string | null;
+  lat: number | null;
+  lng: number | null;
   device: string | null;
   browser: string | null;
   os: string | null;
@@ -53,7 +55,7 @@ export default async function AnalyticsPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: rows = [] } = await (supabase as any)
     .from("analytics_pageviews")
-    .select("path, referrer, country, country_code, city, device, browser, os, created_at")
+    .select("path, referrer, country, country_code, city, lat, lng, device, browser, os, created_at")
     .gte("created_at", thirtyDaysAgo)
     .order("created_at", { ascending: true }) as { data: PageviewRow[] | null };
 
@@ -97,6 +99,20 @@ export default async function AnalyticsPage() {
   // Navegadores
   const browserData = groupCount(safeRows, "browser").slice(0, 6);
 
+  // Cidades com coordenadas (para o mapa)
+  const cityMap = new Map<string, { visits: number; lat: number; lng: number }>();
+  for (const row of safeRows) {
+    if (!row.city || row.lat == null || row.lng == null) continue;
+    if (!cityMap.has(row.city)) {
+      cityMap.set(row.city, { visits: 0, lat: row.lat, lng: row.lng });
+    }
+    cityMap.get(row.city)!.visits++;
+  }
+  const cityData = Array.from(cityMap.entries())
+    .map(([city, d]) => ({ city, visits: d.visits, lat: d.lat, lng: d.lng }))
+    .sort((a, b) => b.visits - a.visits)
+    .slice(0, 60);
+
   // Top referrers (remove null/vazio → "Direto")
   const referrerData = groupCount(
     safeRows.map((r) => ({ ...r, referrer: r.referrer || "Direto" })),
@@ -125,6 +141,7 @@ export default async function AnalyticsPage() {
         browserData={browserData}
         topCountries={topCountriesFull}
         referrerData={referrerData}
+        cityData={cityData}
       />
     </div>
   );

@@ -15,6 +15,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import BrazilMapChart, { type CityPoint } from "./BrazilMapChart";
 
 interface DataPoint {
   name: string;
@@ -33,6 +34,7 @@ interface Props {
   browserData: DataPoint[];
   topCountries: DataPoint[];
   referrerData: DataPoint[];
+  cityData: CityPoint[];
 }
 
 const COLORS = ["#1a3a6b", "#16a34a", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4", "#ec4899", "#f97316"];
@@ -51,9 +53,12 @@ export default function AnalyticsCharts({
   browserData,
   topCountries,
   referrerData,
+  cityData,
 }: Props) {
   return (
     <div className="space-y-6">
+      {/* Mapa de Acessos */}
+      <BrazilMapChart cities={cityData} />
       {/* Visitas por dia */}
       <div className="bg-white rounded-xl border border-gray-200 p-6">
         <h2 className="font-semibold text-gray-800 mb-4">Visitas por dia (últimos 30 dias)</h2>
