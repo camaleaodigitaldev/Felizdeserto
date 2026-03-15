@@ -168,7 +168,7 @@ export default async function NewsArticlePage({ params }: Props) {
 
         {/* Body */}
         <div
-          className="prose prose-gray max-w-none prose-headings:text-brand-blue prose-a:text-brand-blue prose-img:rounded-xl"
+          className="prose prose-gray max-w-none prose-headings:text-brand-blue prose-a:text-brand-blue prose-img:rounded-xl news-body"
           dangerouslySetInnerHTML={{ __html: news.body }}
         />
 
