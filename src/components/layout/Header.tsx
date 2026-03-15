@@ -2,11 +2,24 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { NAV_LINKS, SITE } from "@/lib/constants";
 import MobileMenu from "./MobileMenu";
 import { createClient } from "@/lib/supabase/client";
+
+const A11Y_KEY = "fd_a11y";
+interface A11yState { contrast: boolean; grayscale: boolean; invert: boolean; highlightLinks: boolean; fontSize: number; }
+const A11Y_DEFAULT: A11yState = { contrast: false, grayscale: false, invert: false, highlightLinks: false, fontSize: 0 };
+function applyAll(s: A11yState) {
+  const html = document.documentElement;
+  html.classList.toggle("a11y-contrast", s.contrast);
+  html.classList.toggle("a11y-grayscale", s.grayscale);
+  html.classList.toggle("a11y-invert", s.invert);
+  html.classList.toggle("a11y-links", s.highlightLinks);
+  if (s.fontSize === 0) html.style.removeProperty("font-size");
+  else html.style.fontSize = `${100 + s.fontSize * 10}%`;
+}
 
 function LiveDate() {
   const [dateStr, setDateStr] = useState("");
@@ -37,6 +50,48 @@ export default function Header() {
   const [search, setSearch] = useState("");
   const pathname = usePathname();
   const [secretarias, setSecretarias] = useState<Secretaria[]>([]);
+  const [a11y, setA11y] = useState<A11yState>(A11Y_DEFAULT);
+
+  const readA11y = useCallback(() => {
+    try {
+      const saved = localStorage.getItem(A11Y_KEY);
+      return saved ? { ...A11Y_DEFAULT, ...JSON.parse(saved) } : A11Y_DEFAULT;
+    } catch { return A11Y_DEFAULT; }
+  }, []);
+
+  useEffect(() => {
+    const initial = readA11y();
+    setA11y(initial);
+    applyAll(initial);
+    // Sync when AccessibilityWidget changes state
+    function onStorage(e: StorageEvent) {
+      if (e.key === A11Y_KEY) {
+        const next = readA11y();
+        setA11y(next);
+        applyAll(next);
+      }
+    }
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, [readA11y]);
+
+  function toggleA11y(key: keyof Omit<A11yState, "fontSize">) {
+    setA11y((prev) => {
+      const next = { ...prev, [key]: !prev[key] };
+      try { localStorage.setItem(A11Y_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+      applyAll(next);
+      return next;
+    });
+  }
+
+  function changeFontSize(delta: number) {
+    setA11y((prev) => {
+      const next = { ...prev, fontSize: Math.max(-2, Math.min(3, prev.fontSize + delta)) };
+      try { localStorage.setItem(A11Y_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+      applyAll(next);
+      return next;
+    });
+  }
 
   useEffect(() => {
     const supabase = createClient();
@@ -67,8 +122,28 @@ export default function Header() {
 
           {/* Direita: redes + botões + busca */}
           <div className="hidden md:flex flex-col items-end gap-2.5">
-            {/* Linha 1: redes */}
+            {/* Linha 1: acessibilidade + redes */}
             <div className="flex items-center gap-4 text-xs text-gray-400">
+              <span className="flex items-center gap-1.5" role="toolbar" aria-label="Opções de acessibilidade">
+                <span>Acessibilidade</span>
+                <button onClick={() => changeFontSize(1)} disabled={a11y.fontSize >= 3} aria-label="Aumentar fonte" title="Aumentar fonte"
+                  className="p-1 rounded-lg hover:bg-gray-100 hover:text-brand-blue transition-colors disabled:opacity-40">
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/></svg>
+                </button>
+                <button onClick={() => changeFontSize(-1)} disabled={a11y.fontSize <= -2} aria-label="Diminuir fonte" title="Diminuir fonte"
+                  className="p-1 rounded-lg hover:bg-gray-100 hover:text-brand-blue transition-colors disabled:opacity-40">
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M20 12H4"/></svg>
+                </button>
+                <button onClick={() => toggleA11y("grayscale")} aria-pressed={a11y.grayscale} aria-label="Preto e branco" title="Preto e branco"
+                  className={`p-1 rounded-lg transition-colors ${a11y.grayscale ? "bg-brand-blue text-white" : "hover:bg-gray-100 hover:text-brand-blue"}`}>
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18V3z" fill="currentColor" stroke="none"/></svg>
+                </button>
+                <button onClick={() => toggleA11y("contrast")} aria-pressed={a11y.contrast} aria-label="Alto contraste" title="Alto contraste"
+                  className={`p-1 rounded-lg transition-colors ${a11y.contrast ? "bg-brand-blue text-white" : "hover:bg-gray-100 hover:text-brand-blue"}`}>
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20V2z" fill="currentColor" stroke="none"/></svg>
+                </button>
+              </span>
+              <span className="w-px h-3 bg-gray-200" />
               <span className="flex items-center gap-1.5">
                 <span>Redes Sociais</span>
                 <a href="https://www.facebook.com/prefeituradefelizdeserto" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-1 rounded-lg hover:bg-gray-100 hover:text-brand-blue transition-colors">
