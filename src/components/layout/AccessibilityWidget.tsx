@@ -153,7 +153,7 @@ export default function AccessibilityWidget() {
   ];
 
   return (
-    <div ref={ref} className="fixed bottom-[72px] right-0 z-[60] flex items-end justify-end">
+    <div ref={ref} className="fixed bottom-[248px] right-4 z-[60] flex items-end justify-end">
       {/* Painel — abre para cima e para a esquerda */}
       {open && (
         <div className="absolute bottom-14 right-1 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden w-52 animate-fade-in">
@@ -196,7 +196,7 @@ export default function AccessibilityWidget() {
       {/* Botão flutuante — mesmo estilo do VLibras */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-12 h-12 bg-[#1351b4] text-white rounded-tl-2xl flex items-center justify-center shadow-lg hover:bg-[#0e3d8a] transition-colors"
+        className="w-12 h-12 bg-[#1351b4] text-white rounded-2xl border-2 border-white/30 flex items-center justify-center shadow-lg hover:bg-[#0e3d8a] transition-colors"
         aria-label="Opções de acessibilidade"
         aria-expanded={open}
         aria-haspopup="true"
