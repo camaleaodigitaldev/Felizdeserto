@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 const A11Y_KEY = "fd_a11y";
 const POS_KEY  = "fd_a11y_pos";
 
-const WIDGET_SIZE = 48; // px
+const WIDGET_SIZE = 40; // px
 const EDGE_GAP    = 16; // px do lado
 
 interface A11yState {
@@ -214,7 +214,7 @@ export default function AccessibilityWidget() {
       {open && (
         <div
           className={`absolute top-0 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden w-52 animate-fade-in ${
-            onRight ? "right-14" : "left-14"
+            onRight ? "right-12" : "left-12"
           }`}
           style={{ maxHeight: "calc(100vh - 32px)", overflowY: "auto" }}
         >
@@ -258,7 +258,7 @@ export default function AccessibilityWidget() {
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
-        className="w-12 h-12 bg-[#1351b4] text-white rounded-xl flex items-center justify-center shadow-md hover:bg-[#0e3d8a] transition-colors select-none"
+        className="w-10 h-10 bg-[#1351b4]/80 text-white rounded-full flex items-center justify-center shadow-md hover:bg-[#1351b4] transition-colors select-none"
         style={{
           cursor: dragging ? "grabbing" : "grab",
           touchAction: "none",
@@ -267,26 +267,11 @@ export default function AccessibilityWidget() {
         aria-expanded={open}
         aria-haspopup="true"
       >
-        {/* Ícone de drag (3 linhas) + ícone de acessibilidade */}
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="12" cy="4" r="2" />
           <path d="M10.5 7.5C9 7.5 8 8.5 8 10v4l2 .5V22h4V14.5l2-.5V10c0-1.5-1-2.5-2.5-2.5h-3z"/>
-          <path d="M9 10h6" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round"/>
         </svg>
       </button>
-
-      {/* Indicador visual de arraste */}
-      {!open && (
-        <div
-          className={`absolute top-1/2 -translate-y-1/2 flex flex-col gap-0.5 opacity-40 pointer-events-none ${
-            onRight ? "right-[52px]" : "left-[52px]"
-          }`}
-        >
-          {[0,1,2].map(i => (
-            <span key={i} className="block w-3 h-0.5 bg-gray-400 rounded-full" />
-          ))}
-        </div>
-      )}
     </div>
   );
 }
