@@ -66,37 +66,39 @@ export default async function NoticiasPage({ searchParams }: Props) {
         </div>
       </div>
 
-      <div className="container-site py-10">
-        {/* Category filter */}
+      <div className="py-10">
+        {/* Category filter — scroll horizontal, linha única */}
         {categories && categories.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-8">
-            <Link
-              href="/noticias"
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                !categoria
-                  ? "bg-brand-blue text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              Todas
-            </Link>
-            {(categories as NewsCategory[]).map((cat) => (
+          <div className="overflow-x-auto scrollbar-none mb-8">
+            <div className="flex gap-0 border-b border-gray-200 px-4 sm:px-6 lg:px-8 min-w-max">
               <Link
-                key={cat.id}
-                href={`/noticias?categoria=${cat.slug}`}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                  categoria === cat.slug
-                    ? "text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                href="/noticias"
+                className={`px-4 py-2.5 text-sm font-medium whitespace-nowrap border-b-2 transition-colors -mb-px ${
+                  !categoria
+                    ? "border-brand-blue text-brand-blue"
+                    : "border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300"
                 }`}
-                style={categoria === cat.slug ? { backgroundColor: cat.color } : {}}
               >
-                {cat.name}
+                Todas
               </Link>
-            ))}
+              {(categories as NewsCategory[]).map((cat) => (
+                <Link
+                  key={cat.id}
+                  href={`/noticias?categoria=${cat.slug}`}
+                  className={`px-4 py-2.5 text-sm font-medium whitespace-nowrap border-b-2 transition-colors -mb-px ${
+                    categoria === cat.slug
+                      ? "border-brand-blue text-brand-blue"
+                      : "border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300"
+                  }`}
+                >
+                  {cat.name}
+                </Link>
+              ))}
+            </div>
           </div>
         )}
 
+        <div className="container-site">
         {news.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-gray-400 text-lg">Nenhuma notícia encontrada.</p>
@@ -143,6 +145,7 @@ export default async function NoticiasPage({ searchParams }: Props) {
             )}
           </div>
         )}
+        </div>
       </div>
     </>
   );

@@ -205,3 +205,11 @@ html.a11y-links a {
 .animate-fade-in {
   animation: fade-in 0.15s ease-out both;
 }
+
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
