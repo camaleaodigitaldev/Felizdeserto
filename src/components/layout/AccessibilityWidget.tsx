@@ -3,10 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 
 const A11Y_KEY = "fd_a11y";
-const POS_KEY  = "fd_a11y_pos";
-
-const WIDGET_SIZE = 40; // px
-const EDGE_GAP    = 16; // px do lado
 
 interface A11yState {
   contrast: boolean;
@@ -14,11 +10,6 @@ interface A11yState {
   invert: boolean;
   highlightLinks: boolean;
   fontSize: number; // -2 .. +3
-}
-
-interface WidgetPos {
-  y: number;
-  side: "left" | "right";
 }
 
 const DEFAULT: A11yState = {
@@ -45,12 +36,8 @@ function applyAll(s: A11yState) {
 export default function AccessibilityWidget() {
   const [open, setOpen]   = useState(false);
   const [state, setState] = useState<A11yState>(DEFAULT);
-  const [pos, setPos]     = useState<WidgetPos | null>(null);
-  const [dragging, setDragging] = useState(false);
   const outerRef = useRef<HTMLDivElement>(null);
-  const drag     = useRef({ active: false, startX: 0, startY: 0, origY: 0, moved: false });
 
-  /* ── Carregar preferências de acessibilidade ─────────────────── */
   useEffect(() => {
     try {
       const saved = localStorage.getItem(A11Y_KEY);
@@ -60,20 +47,6 @@ export default function AccessibilityWidget() {
     } catch { /* ignore */ }
   }, []);
 
-  /* ── Carregar posição salva (ou usar padrão: centro / esquerda) ─ */
-  useEffect(() => {
-    let saved: WidgetPos | null = null;
-    try {
-      const s = localStorage.getItem(POS_KEY);
-      if (s) saved = JSON.parse(s);
-    } catch {}
-    setPos(saved ?? {
-      y: Math.round(window.innerHeight / 2 - WIDGET_SIZE / 2),
-      side: "left",
-    });
-  }, []);
-
-  /* ── Fechar ao clicar fora ───────────────────────────────────── */
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (outerRef.current && !outerRef.current.contains(e.target as Node)) {
@@ -84,7 +57,6 @@ export default function AccessibilityWidget() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [open]);
 
-  /* ── Acessibilidade ─────────────────────────────────────────── */
   function update(next: A11yState) {
     setState(next);
     try { localStorage.setItem(A11Y_KEY, JSON.stringify(next)); } catch {}
@@ -95,54 +67,6 @@ export default function AccessibilityWidget() {
   }
   function changeFontSize(delta: number) {
     update({ ...state, fontSize: Math.max(-2, Math.min(3, state.fontSize + delta)) });
-  }
-
-  /* ── Salvar posição ─────────────────────────────────────────── */
-  function savePos(p: WidgetPos) {
-    setPos(p);
-    try { localStorage.setItem(POS_KEY, JSON.stringify(p)); } catch {}
-  }
-
-  /* ── Drag (pointer events, funciona em touch e mouse) ──────── */
-  function onPointerDown(e: React.PointerEvent<HTMLButtonElement>) {
-    e.currentTarget.setPointerCapture(e.pointerId);
-    drag.current = {
-      active: true,
-      startX: e.clientX,
-      startY: e.clientY,
-      origY: pos?.y ?? 0,
-      moved: false,
-    };
-  }
-
-  function onPointerMove(e: React.PointerEvent<HTMLButtonElement>) {
-    if (!drag.current.active) return;
-    const dy = e.clientY - drag.current.startY;
-    const dx = Math.abs(e.clientX - drag.current.startX);
-    if (Math.abs(dy) > 5 || dx > 5) drag.current.moved = true;
-    if (!drag.current.moved) return;
-
-    setDragging(true);
-    const newY = Math.max(8, Math.min(window.innerHeight - WIDGET_SIZE - 8, drag.current.origY + dy));
-    setPos(p => p ? { ...p, y: newY } : null);
-    e.preventDefault();
-  }
-
-  function onPointerUp(e: React.PointerEvent<HTMLButtonElement>) {
-    if (!drag.current.active) return;
-    drag.current.active = false;
-    setDragging(false);
-
-    if (!drag.current.moved) {
-      // Era um tap — abre/fecha o painel
-      setOpen(o => !o);
-      return;
-    }
-
-    // Snapa para o lado mais próximo
-    const side: "left" | "right" = e.clientX > window.innerWidth / 2 ? "right" : "left";
-    const newY = Math.max(8, Math.min(window.innerHeight - WIDGET_SIZE - 8, pos?.y ?? 0));
-    savePos({ y: newY, side });
   }
 
   const isDefault =
@@ -194,30 +118,12 @@ export default function AccessibilityWidget() {
     },
   ];
 
-  // Esconde até carregar posição (evita flash no lado errado)
-  if (!pos) return null;
-
-  const onRight = pos.side === "right";
-
   return (
-    <div
-      ref={outerRef}
-      style={{
-        position: "fixed",
-        top: `${pos.y}px`,
-        [onRight ? "right" : "left"]: `${EDGE_GAP}px`,
-        [onRight ? "left" : "right"]: "auto",
-        zIndex: 60,
-      }}
-    >
-      {/* Painel de opções — abre para o lado oposto ao da borda */}
+    <div ref={outerRef} className="fixed top-20 right-0 z-[60]">
+
+      {/* Painel — abre para a esquerda */}
       {open && (
-        <div
-          className={`absolute top-0 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden w-52 animate-fade-in ${
-            onRight ? "right-12" : "left-12"
-          }`}
-          style={{ maxHeight: "calc(100vh - 32px)", overflowY: "auto" }}
-        >
+        <div className="absolute top-0 right-10 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden w-52">
           <div className="bg-brand-blue px-4 py-2.5 flex items-center gap-2">
             <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm-1 5h2l1 4 3 1-1 2-3-1v6h-2v-6l-3 1-1-2 3-1 1-4z"/>
@@ -253,16 +159,10 @@ export default function AccessibilityWidget() {
         </div>
       )}
 
-      {/* Botão flutuante — drag + tap */}
+      {/* Botão — colado na borda direita, cantos arredondados no lado esquerdo */}
       <button
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        className="w-10 h-10 bg-[#1351b4]/80 text-white rounded-full flex items-center justify-center shadow-md hover:bg-[#1351b4] transition-colors select-none"
-        style={{
-          cursor: dragging ? "grabbing" : "grab",
-          touchAction: "none",
-        }}
+        onClick={() => setOpen(o => !o)}
+        className="w-10 h-10 bg-[#1351b4] text-white rounded-l-lg flex items-center justify-center shadow-md hover:bg-[#0e3d8a] transition-colors"
         aria-label="Opções de acessibilidade"
         aria-expanded={open}
         aria-haspopup="true"
@@ -272,6 +172,7 @@ export default function AccessibilityWidget() {
           <path d="M10.5 7.5C9 7.5 8 8.5 8 10v4l2 .5V22h4V14.5l2-.5V10c0-1.5-1-2.5-2.5-2.5h-3z"/>
         </svg>
       </button>
+
     </div>
   );
 }
