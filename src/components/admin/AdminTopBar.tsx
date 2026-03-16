@@ -3,16 +3,17 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { LogOut, ChevronDown, User } from "lucide-react";
+import { LogOut, ChevronDown, User, Menu } from "lucide-react";
 
 interface AdminTopBarProps {
   user: {
     name: string;
     email: string;
   };
+  onMenuClick?: () => void;
 }
 
-export default function AdminTopBar({ user }: AdminTopBarProps) {
+export default function AdminTopBar({ user, onMenuClick }: AdminTopBarProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -39,14 +40,22 @@ export default function AdminTopBar({ user }: AdminTopBarProps) {
     : user.email.slice(0, 2).toUpperCase();
 
   return (
-    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 flex-shrink-0 shadow-sm">
-      {/* Left: Page context (breadcrumb placeholder) */}
-      <div className="flex items-center gap-2">
-        <span className="text-sm text-gray-500 font-medium">
-          Prefeitura de Feliz Deserto
-        </span>
-        <span className="text-gray-300">/</span>
-        <span className="text-sm text-gray-800 font-semibold">Painel Administrativo</span>
+    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 lg:px-6 flex-shrink-0 shadow-sm">
+      {/* Left: hamburger (mobile) + breadcrumb */}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={onMenuClick}
+          className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-600"
+          aria-label="Abrir menu"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        <div className="hidden sm:flex items-center gap-2">
+          <span className="text-sm text-gray-500 font-medium">Prefeitura de Feliz Deserto</span>
+          <span className="text-gray-300">/</span>
+          <span className="text-sm text-gray-800 font-semibold">Painel Administrativo</span>
+        </div>
+        <span className="sm:hidden text-sm text-gray-800 font-semibold">Painel Admin</span>
       </div>
 
       {/* Right: User menu */}

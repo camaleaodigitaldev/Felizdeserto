@@ -87,9 +87,10 @@ const NAV_ITEMS: NavItem[] = [
 
 interface AdminSidebarProps {
   role: UserRole;
+  onClose?: () => void;
 }
 
-export default function AdminSidebar({ role }: AdminSidebarProps) {
+export default function AdminSidebar({ role, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
 
   const isActive = (href: string) => {
@@ -104,7 +105,7 @@ export default function AdminSidebar({ role }: AdminSidebarProps) {
   );
 
   return (
-    <aside className="w-64 min-h-screen bg-[#1a3a6b] flex flex-col shadow-xl flex-shrink-0">
+    <aside className="w-64 h-full min-h-screen bg-[#1a3a6b] flex flex-col shadow-xl flex-shrink-0">
       {/* Logo / Brand */}
       <div className="px-6 py-5 border-b border-white/10">
         <div className="flex items-center gap-3">
@@ -128,6 +129,7 @@ export default function AdminSidebar({ role }: AdminSidebarProps) {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onClose}
               className={`
                 flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
                 transition-all duration-150 group
