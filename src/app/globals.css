@@ -213,3 +213,8 @@ html.a11y-links a {
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
+
+/* VLibras — cola o botão na borda direita */
+[vw-access-button] {
+  right: 0 !important;
+}
