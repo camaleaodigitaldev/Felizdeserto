@@ -7,12 +7,17 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
+import Link from "next/link";
+
 const schema = z.object({
   name: z.string().min(3, "Informe seu nome completo"),
   email: z.string().email("Informe um e-mail válido"),
   phone: z.string().optional(),
   subject: z.string().min(5, "Informe o assunto"),
   message: z.string().min(20, "Mensagem deve ter ao menos 20 caracteres"),
+  consent: z.boolean().refine((v) => v === true, {
+    message: "Você precisa concordar com a Política de Privacidade para enviar a mensagem",
+  }),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -182,9 +187,30 @@ export default function FaleConoscoPage() {
                     {errors.message && <p className="text-xs text-red-500 mt-1">{errors.message.message}</p>}
                   </div>
 
-                  <p className="text-xs text-gray-400">
-                    Seus dados estão protegidos conforme a Lei nº 13.709/2018 (LGPD).
-                  </p>
+                  {/* Consentimento LGPD */}
+                  <div>
+                    <label className="flex items-start gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        {...register("consent")}
+                        className="mt-0.5 h-4 w-4 rounded border-gray-300 text-brand-blue focus:ring-brand-blue flex-shrink-0"
+                      />
+                      <span className="text-sm text-gray-600">
+                        Li e concordo com a{" "}
+                        <Link
+                          href="/politica-privacidade"
+                          target="_blank"
+                          className="text-brand-blue underline underline-offset-2 hover:text-blue-800"
+                        >
+                          Política de Privacidade
+                        </Link>{" "}
+                        e autorizo o uso dos meus dados para fins de atendimento pela Prefeitura de Feliz Deserto, conforme a Lei nº 13.709/2018 (LGPD). *
+                      </span>
+                    </label>
+                    {errors.consent && (
+                      <p className="text-xs text-red-500 mt-1 ml-7">{errors.consent.message}</p>
+                    )}
+                  </div>
 
                   <button
                     type="submit"

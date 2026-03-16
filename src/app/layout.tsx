@@ -4,6 +4,7 @@ import { SITE } from "@/lib/constants";
 import VLibras from "@/components/VLibras";
 import AccessibilityWidget from "@/components/layout/AccessibilityWidget";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import CookieBanner from "@/components/layout/CookieBanner";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -69,6 +70,7 @@ export default function RootLayout({
         {children}
         <AccessibilityWidget />
         <VLibras />
+        <CookieBanner />
       </body>
     </html>
   );

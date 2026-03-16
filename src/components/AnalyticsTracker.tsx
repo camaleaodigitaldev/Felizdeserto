@@ -1,13 +1,29 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { getCookieConsent } from "./layout/CookieBanner";
 
 export default function AnalyticsTracker() {
   const pathname = usePathname();
   const lastPath = useRef<string | null>(null);
+  const [consent, setConsent] = useState<string | null>(null);
+
+  // Lê o consentimento inicial e escuta mudanças (ex: usuário aceita no banner)
+  useEffect(() => {
+    setConsent(getCookieConsent());
+
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === "fd_cookie_consent") setConsent(e.newValue);
+    };
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
 
   useEffect(() => {
+    // Só rastrear se o usuário aceitou cookies de analytics
+    if (consent !== "accepted") return;
+
     // Não rastrear a mesma rota duas vezes (StrictMode no dev)
     if (pathname === lastPath.current) return;
     lastPath.current = pathname;
@@ -26,7 +42,7 @@ export default function AnalyticsTracker() {
       body: JSON.stringify({ path: pathname, referrer }),
       keepalive: true,
     }).catch(() => {});
-  }, [pathname]);
+  }, [pathname, consent]);
 
   return null;
 }

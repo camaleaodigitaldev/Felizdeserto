@@ -79,6 +79,7 @@ export default function Footer() {
                 { href: "/transparencia", label: "Acesso à Informação (LAI)" },
                 { href: "/fale-conosco", label: "Fale Conosco" },
                 { href: "/municipio/historia", label: "História do Município" },
+                { href: "/politica-privacidade", label: "Política de Privacidade / LGPD" },
               ].map((link) => (
                 <li key={link.href}>
                   {link.external ? (
