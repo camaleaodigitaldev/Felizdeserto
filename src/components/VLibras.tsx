@@ -84,22 +84,14 @@ export default function VLibras() {
         });
 
         /* ── Drag no botão do VLibras ─────────────────────────── */
+        // Usamos listeners no document (sem setPointerCapture) para não
+        // interferir nos handlers de clique nativos do VLibras.
         const dragState = { active: false, startX: 0, startY: 0, origY: 0, moved: false };
 
-        btn.addEventListener("pointerdown", (e) => {
-          (e.target as Element).setPointerCapture((e as PointerEvent).pointerId);
-          dragState.active = true;
-          dragState.startX = (e as PointerEvent).clientX;
-          dragState.startY = (e as PointerEvent).clientY;
-          dragState.origY  = vlPos.y;
-          dragState.moved  = false;
-          btn.style.setProperty("cursor", "grabbing", "important");
-        });
-
-        btn.addEventListener("pointermove", (e) => {
+        const onMove = (e: PointerEvent) => {
           if (!dragState.active) return;
-          const dy = (e as PointerEvent).clientY - dragState.startY;
-          const dx = Math.abs((e as PointerEvent).clientX - dragState.startX);
+          const dy = e.clientY - dragState.startY;
+          const dx = Math.abs(e.clientX - dragState.startX);
           if (Math.abs(dy) > 5 || dx > 5) dragState.moved = true;
           if (!dragState.moved) return;
 
@@ -109,23 +101,39 @@ export default function VLibras() {
           };
           pin();
           e.preventDefault();
-        }, { passive: false });
+        };
 
-        btn.addEventListener("pointerup", (e) => {
+        const onUp = (e: PointerEvent) => {
           if (!dragState.active) return;
           dragState.active = false;
+          document.removeEventListener("pointermove", onMove);
+          document.removeEventListener("pointerup", onUp);
           btn.style.setProperty("cursor", "grab", "important");
-          if (!dragState.moved) return; // clique normal — VLibras trata
+
+          if (!dragState.moved) return; // tap — deixa o VLibras abrir normalmente
+
+          // Depois de arrastar, cancela o click que o browser dispara em seguida
+          btn.addEventListener("click", (ev) => ev.stopImmediatePropagation(), { once: true, capture: true });
 
           /* Snapa para o lado mais próximo */
-          const side: "left" | "right" =
-            (e as PointerEvent).clientX > window.innerWidth / 2 ? "right" : "left";
+          const side: "left" | "right" = e.clientX > window.innerWidth / 2 ? "right" : "left";
           vlPos = {
             side,
             y: Math.max(8, Math.min(window.innerHeight - WIDGET_SIZE - 8, vlPos.y)),
           };
           try { localStorage.setItem(VL_POS_KEY, JSON.stringify(vlPos)); } catch {}
           pin();
+        };
+
+        btn.addEventListener("pointerdown", (e) => {
+          dragState.active = true;
+          dragState.startX = (e as PointerEvent).clientX;
+          dragState.startY = (e as PointerEvent).clientY;
+          dragState.origY  = vlPos.y;
+          dragState.moved  = false;
+          btn.style.setProperty("cursor", "grabbing", "important");
+          document.addEventListener("pointermove", onMove, { passive: false });
+          document.addEventListener("pointerup", onUp);
         });
       }, 100);
     };
