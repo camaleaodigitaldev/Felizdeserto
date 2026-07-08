@@ -226,10 +226,12 @@ export interface Database {
           link_label: string | null;
           display_order: number;
           is_active: boolean;
+          show_gradient: boolean;
           created_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["banners"]["Row"], "id" | "created_at"> & {
+        Insert: Omit<Database["public"]["Tables"]["banners"]["Row"], "id" | "created_at" | "show_gradient"> & {
           id?: number;
+          show_gradient?: boolean;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["banners"]["Insert"]>;
