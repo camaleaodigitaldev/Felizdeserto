@@ -47,7 +47,6 @@ export default function EditBannerPage() {
           image_url: data.image_url || null,
           link_url: data.link_url || null,
           link_label: data.link_label || null,
-          display_order: Number(data.display_order),
           is_active: data.is_active,
           show_gradient: data.show_gradient,
           link_on_image: data.link_on_image,
@@ -190,29 +189,18 @@ export default function EditBannerPage() {
             Configurações
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="label-base">Ordem de exibição</label>
-              <input
-                {...register("display_order", { valueAsNumber: true })}
-                type="number"
-                min={1}
-                className="input-base w-24"
-              />
-              <p className="text-xs text-gray-400 mt-1">Menor número = aparece primeiro</p>
-            </div>
-            <div className="flex items-center gap-3 pt-6">
-              <input
-                {...register("is_active")}
-                type="checkbox"
-                id="is_active"
-                className="w-4 h-4 rounded accent-brand-blue"
-              />
-              <label htmlFor="is_active" className="text-sm font-medium text-gray-700 cursor-pointer">
-                Banner ativo (visível no site)
-              </label>
-            </div>
+          <div className="flex items-center gap-3">
+            <input
+              {...register("is_active")}
+              type="checkbox"
+              id="is_active"
+              className="w-4 h-4 rounded accent-brand-blue"
+            />
+            <label htmlFor="is_active" className="text-sm font-medium text-gray-700 cursor-pointer">
+              Banner ativo (visível no site)
+            </label>
           </div>
+          <p className="text-xs text-gray-400">A ordem de exibição é definida na lista de banners, com as setas ▲▼.</p>
         </div>
 
         <div className="flex gap-3 items-center pb-8">
