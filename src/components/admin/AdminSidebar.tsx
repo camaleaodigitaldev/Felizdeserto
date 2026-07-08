@@ -115,12 +115,12 @@ export default function AdminSidebar({ role, onClose }: AdminSidebarProps) {
       {/* Logo / Brand */}
       <div className="px-6 py-5 border-b border-white/10">
         <div className="flex flex-col gap-2">
-          <div className="bg-white rounded-lg px-3 py-2 flex items-center justify-center">
+          <div className="flex items-center justify-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://desohrdjqujmmplawntj.supabase.co/storage/v1/object/public/banners/logo-2022feliznovo.png"
+              src="https://desohrdjqujmmplawntj.supabase.co/storage/v1/object/public/banners/logo-2022feliznovonomebranco.png"
               alt="Prefeitura de Feliz Deserto"
-              className="h-10 w-auto object-contain"
+              className="h-12 w-auto object-contain"
             />
           </div>
           <p className="text-white/50 text-xs truncate text-center">Painel Admin</p>
