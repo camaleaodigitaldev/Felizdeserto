@@ -13,6 +13,11 @@ export const metadata: Metadata = {
     template: `%s | ${SITE.name}`,
   },
   description: SITE.description,
+  icons: {
+    icon: SITE.brasaoUrl,
+    shortcut: SITE.brasaoUrl,
+    apple: SITE.brasaoUrl,
+  },
   keywords: [
     "Prefeitura de Feliz Deserto",
     "Feliz Deserto Alagoas",
