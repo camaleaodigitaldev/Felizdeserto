@@ -49,8 +49,23 @@ export default function HeroSlider({ banners }: Props) {
                 </>
               )}
 
-              {/* Content — canto inferior esquerdo */}
-              <div className="absolute inset-0 flex items-end justify-start pb-6 sm:pb-8">
+              {/* Imagem inteira clicável (abre o link de destino) */}
+              {banner.link_on_image && banner.link_url && (
+                <Link
+                  href={banner.link_url}
+                  aria-label={banner.title}
+                  className="absolute inset-0 z-10"
+                  {...(banner.link_url.startsWith("http")
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                />
+              )}
+
+              {/* Content — canto inferior esquerdo.
+                  pointer-events-none deixa o clique "passar" para o link da
+                  imagem nas áreas vazias; os elementos interativos reativam
+                  o clique com pointer-events-auto. */}
+              <div className="absolute inset-0 z-20 flex items-end justify-start pb-6 sm:pb-8 pointer-events-none">
                 <div className="container-site w-full">
                   <div className="max-w-xl animate-slide-up text-left">
                     <h2 className="text-xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-2 sm:mb-3">
@@ -62,7 +77,7 @@ export default function HeroSlider({ banners }: Props) {
                     {banner.link_url && banner.link_label && (
                       <Link
                         href={banner.link_url}
-                        className="btn-secondary text-xs sm:text-base px-4 py-2 sm:px-6 sm:py-3"
+                        className="btn-secondary text-xs sm:text-base px-4 py-2 sm:px-6 sm:py-3 relative z-30 pointer-events-auto"
                         {...(banner.link_url.startsWith("http")
                           ? { target: "_blank", rel: "noopener noreferrer" }
                           : {})}
@@ -83,7 +98,7 @@ export default function HeroSlider({ banners }: Props) {
         <>
           <button
             onClick={scrollPrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-white/20 hover:bg-white/40 text-white rounded-full backdrop-blur-sm transition-colors"
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-40 p-2 bg-white/20 hover:bg-white/40 text-white rounded-full backdrop-blur-sm transition-colors"
             aria-label="Anterior"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -92,7 +107,7 @@ export default function HeroSlider({ banners }: Props) {
           </button>
           <button
             onClick={scrollNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-white/20 hover:bg-white/40 text-white rounded-full backdrop-blur-sm transition-colors"
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-40 p-2 bg-white/20 hover:bg-white/40 text-white rounded-full backdrop-blur-sm transition-colors"
             aria-label="Próximo"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

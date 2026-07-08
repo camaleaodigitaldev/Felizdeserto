@@ -227,11 +227,13 @@ export interface Database {
           display_order: number;
           is_active: boolean;
           show_gradient: boolean;
+          link_on_image: boolean;
           created_at: string;
         };
-        Insert: Omit<Database["public"]["Tables"]["banners"]["Row"], "id" | "created_at" | "show_gradient"> & {
+        Insert: Omit<Database["public"]["Tables"]["banners"]["Row"], "id" | "created_at" | "show_gradient" | "link_on_image"> & {
           id?: number;
           show_gradient?: boolean;
+          link_on_image?: boolean;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["banners"]["Insert"]>;
