@@ -42,6 +42,7 @@ export default function HeroSlider({ banners }: Props) {
   if (!banners.length) return null;
 
   return (
+    <>
     <section className="relative overflow-hidden bg-brand-blue" aria-label="Destaques">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
@@ -136,25 +137,26 @@ export default function HeroSlider({ banners }: Props) {
           </button>
         </>
       )}
-
-      {/* Pontos de paginação (indicadores de slide) */}
-      {banners.length > 1 && (
-        <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2">
-          {scrollSnaps.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => scrollTo(i)}
-              aria-label={`Ir para o slide ${i + 1}`}
-              aria-current={i === selectedIndex}
-              className={`h-2 sm:h-2.5 rounded-full transition-all duration-300 ${
-                i === selectedIndex
-                  ? "w-5 sm:w-6 bg-white"
-                  : "w-2 sm:w-2.5 bg-white/50 hover:bg-white/80"
-              }`}
-            />
-          ))}
-        </div>
-      )}
     </section>
+
+    {/* Pontos de paginação (indicadores de slide) — abaixo do banner */}
+    {banners.length > 1 && (
+      <div className="flex items-center justify-center gap-2 py-3 sm:py-4">
+        {scrollSnaps.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => scrollTo(i)}
+            aria-label={`Ir para o slide ${i + 1}`}
+            aria-current={i === selectedIndex}
+            className={`h-2 sm:h-2.5 rounded-full transition-all duration-300 ${
+              i === selectedIndex
+                ? "w-5 sm:w-6 bg-brand-blue"
+                : "w-2 sm:w-2.5 bg-gray-300 hover:bg-gray-400"
+            }`}
+          />
+        ))}
+      </div>
+    )}
+    </>
   );
 }
