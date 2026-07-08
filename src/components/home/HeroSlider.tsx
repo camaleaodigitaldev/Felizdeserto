@@ -28,7 +28,7 @@ export default function HeroSlider({ banners }: Props) {
           {banners.map((banner) => (
             <div
               key={banner.id}
-              className="relative flex-[0_0_100%] min-w-0 h-[56vw] sm:h-[520px] lg:h-[600px] bg-brand-blue"
+              className="relative flex-[0_0_100%] min-w-0 aspect-[16/5] bg-brand-blue"
             >
               {banner.image_url && (
                 <Image
