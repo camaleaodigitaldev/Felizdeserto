@@ -4,7 +4,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Banner } from "@/types/database";
 
 interface Props {
@@ -18,6 +18,26 @@ export default function HeroSlider({ banners }: Props) {
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const scrollTo = useCallback((i: number) => emblaApi?.scrollTo(i), [emblaApi]);
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
+    const onReInit = () => {
+      setScrollSnaps(emblaApi.scrollSnapList());
+      onSelect();
+    };
+    onReInit();
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onReInit);
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onReInit);
+    };
+  }, [emblaApi]);
 
   if (!banners.length) return null;
 
@@ -115,6 +135,25 @@ export default function HeroSlider({ banners }: Props) {
             </svg>
           </button>
         </>
+      )}
+
+      {/* Pontos de paginação (indicadores de slide) */}
+      {banners.length > 1 && (
+        <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2">
+          {scrollSnaps.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollTo(i)}
+              aria-label={`Ir para o slide ${i + 1}`}
+              aria-current={i === selectedIndex}
+              className={`h-2 sm:h-2.5 rounded-full transition-all duration-300 ${
+                i === selectedIndex
+                  ? "w-5 sm:w-6 bg-white"
+                  : "w-2 sm:w-2.5 bg-white/50 hover:bg-white/80"
+              }`}
+            />
+          ))}
+        </div>
       )}
     </section>
   );
