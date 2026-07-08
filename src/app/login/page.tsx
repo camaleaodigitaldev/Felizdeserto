@@ -71,13 +71,15 @@ export default function LoginPage() {
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
           <div className="bg-[#1a3a6b] px-8 py-8 text-center">
-            {/* Logo / Coat of arms placeholder */}
-            <div className="w-16 h-16 bg-[#f59e0b] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <span className="text-[#1a3a6b] font-extrabold text-xl">FD</span>
+            {/* Logomarca da Prefeitura */}
+            <div className="bg-white rounded-2xl px-4 py-3 inline-flex items-center justify-center mx-auto mb-4 shadow-lg">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://desohrdjqujmmplawntj.supabase.co/storage/v1/object/public/banners/logo-2022feliznovo.png"
+                alt="Prefeitura de Feliz Deserto"
+                className="h-14 w-auto object-contain"
+              />
             </div>
-            <h1 className="text-white font-bold text-xl leading-tight">
-              {SITE.name}
-            </h1>
             <p className="text-white/60 text-sm mt-1">Painel Administrativo</p>
           </div>
 

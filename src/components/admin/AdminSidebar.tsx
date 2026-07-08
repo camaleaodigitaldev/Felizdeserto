@@ -108,16 +108,16 @@ export default function AdminSidebar({ role, onClose }: AdminSidebarProps) {
     <aside className="w-64 h-full min-h-screen bg-[#1a3a6b] flex flex-col shadow-xl flex-shrink-0">
       {/* Logo / Brand */}
       <div className="px-6 py-5 border-b border-white/10">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-[#f59e0b] rounded-lg flex items-center justify-center flex-shrink-0">
-            <span className="text-[#1a3a6b] font-bold text-sm">FD</span>
+        <div className="flex flex-col gap-2">
+          <div className="bg-white rounded-lg px-3 py-2 flex items-center justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://desohrdjqujmmplawntj.supabase.co/storage/v1/object/public/banners/logo-2022feliznovo.png"
+              alt="Prefeitura de Feliz Deserto"
+              className="h-10 w-auto object-contain"
+            />
           </div>
-          <div className="min-w-0">
-            <p className="text-white font-semibold text-sm leading-tight truncate">
-              Feliz Deserto
-            </p>
-            <p className="text-white/50 text-xs truncate">Painel Admin</p>
-          </div>
+          <p className="text-white/50 text-xs truncate text-center">Painel Admin</p>
         </div>
       </div>
 
