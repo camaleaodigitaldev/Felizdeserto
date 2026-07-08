@@ -15,6 +15,7 @@ type FormData = {
   display_order: number;
   is_active: boolean;
   show_gradient: boolean;
+  link_on_image: boolean;
 };
 
 export default function NovoBannerPage() {
@@ -33,6 +34,7 @@ export default function NovoBannerPage() {
       display_order: 1,
       is_active: true,
       show_gradient: true,
+      link_on_image: false,
     },
   });
 
@@ -50,6 +52,7 @@ export default function NovoBannerPage() {
         display_order: Number(data.display_order),
         is_active: data.is_active,
         show_gradient: data.show_gradient,
+        link_on_image: data.link_on_image,
       });
       if (err) throw new Error(err.message);
       router.push("/admin/banners");
@@ -165,6 +168,20 @@ export default function NovoBannerPage() {
               />
             </div>
           </div>
+
+          <label className="flex items-start gap-3 pt-4 border-t border-gray-100 cursor-pointer">
+            <input
+              {...register("link_on_image")}
+              type="checkbox"
+              className="w-4 h-4 rounded accent-brand-blue mt-0.5"
+            />
+            <span className="text-sm">
+              <span className="font-medium text-gray-700">Tornar a imagem inteira clicável</span>
+              <span className="block text-xs text-gray-400 mt-0.5">
+                Ao clicar em qualquer parte do banner, abre o &quot;Link de destino&quot; acima. Requer o link preenchido.
+              </span>
+            </span>
+          </label>
         </div>
 
         {/* Settings */}
