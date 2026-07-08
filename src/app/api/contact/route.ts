@@ -1,20 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
 import { z } from "zod";
-import { SITE } from "@/lib/constants";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export const dynamic = "force-dynamic";
 
 const schema = z.object({
-  name: z.string().min(3),
-  email: z.string().email(),
-  phone: z.string().optional(),
-  subject: z.string().min(5),
-  message: z.string().min(20),
+  name: z.string().min(3).max(120),
+  email: z.string().email().max(160),
+  phone: z.string().max(40).optional(),
+  subject: z.string().min(5).max(160),
+  message: z.string().min(20).max(5000),
 });
 
 export async function POST(req: NextRequest) {
-  const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const body = await req.json();
     const data = schema.safeParse(body);
@@ -28,43 +26,26 @@ export async function POST(req: NextRequest) {
 
     const { name, email, phone, subject, message } = data.data;
 
-    // Send to prefeitura
-    await resend.emails.send({
-      from: process.env.EMAIL_FROM ?? `noreply@felizdeserto.al.gov.br`,
-      to: process.env.EMAIL_TO ?? SITE.email,
-      subject: `[Fale Conosco] ${subject}`,
-      html: `
-        <h2 style="color:#1a3a6b">Nova mensagem via Fale Conosco</h2>
-        <table cellpadding="8" style="border-collapse:collapse;width:100%">
-          <tr><td style="background:#f8fafc;font-weight:bold;width:120px">Nome</td><td>${name}</td></tr>
-          <tr><td style="background:#f8fafc;font-weight:bold">E-mail</td><td><a href="mailto:${email}">${email}</a></td></tr>
-          ${phone ? `<tr><td style="background:#f8fafc;font-weight:bold">Telefone</td><td>${phone}</td></tr>` : ""}
-          <tr><td style="background:#f8fafc;font-weight:bold">Assunto</td><td>${subject}</td></tr>
-          <tr><td style="background:#f8fafc;font-weight:bold;vertical-align:top">Mensagem</td><td style="white-space:pre-wrap">${message}</td></tr>
-        </table>
-        <p style="color:#64748b;font-size:12px;margin-top:24px">
-          Enviado via Portal ${SITE.name} em ${new Date().toLocaleString("pt-BR")}
-        </p>
-      `,
+    // Grava a mensagem no banco. Usa a service role porque o formulário
+    // é público (sem usuário autenticado) e a tabela não permite insert
+    // por anon via RLS.
+    const supabase = createAdminClient();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (supabase as any).from("contact_messages").insert({
+      name,
+      email,
+      phone: phone || null,
+      subject,
+      message,
     });
 
-    // Auto-reply to sender
-    await resend.emails.send({
-      from: process.env.EMAIL_FROM ?? `noreply@felizdeserto.al.gov.br`,
-      to: email,
-      subject: `Recebemos sua mensagem — ${SITE.name}`,
-      html: `
-        <h2 style="color:#1a3a6b">Olá, ${name}!</h2>
-        <p>Recebemos sua mensagem sobre <strong>${subject}</strong> e entraremos em contato em breve.</p>
-        <p style="color:#64748b">Atendimento: <strong>${SITE.officeHours}</strong></p>
-        <p style="color:#64748b">Telefone: <strong>${SITE.phone}</strong></p>
-        <hr style="border:none;border-top:1px solid #e2e8f0;margin:24px 0"/>
-        <p style="color:#94a3b8;font-size:12px">
-          ${SITE.name} — ${SITE.address}<br/>
-          CNPJ: ${SITE.cnpj}
-        </p>
-      `,
-    });
+    if (error) {
+      console.error("[contact] insert error:", error.message);
+      return NextResponse.json(
+        { error: "Erro ao registrar mensagem. Tente novamente mais tarde." },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({ success: true });
   } catch (err) {

@@ -12,6 +12,7 @@ import {
   Video,
   Phone,
   Building2,
+  Mail,
   Settings,
   Users,
   ExternalLink,
@@ -65,6 +66,11 @@ const NAV_ITEMS: NavItem[] = [
     label: "Secretarias",
     href: "/admin/secretarias",
     icon: <Building2 className="w-5 h-5" />,
+  },
+  {
+    label: "Mensagens",
+    href: "/admin/mensagens",
+    icon: <Mail className="w-5 h-5" />,
   },
   {
     label: "Configurações",

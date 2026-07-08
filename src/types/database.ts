@@ -280,6 +280,24 @@ export interface Database {
           updated_at?: string;
         };
       };
+      contact_messages: {
+        Row: {
+          id: string;
+          name: string;
+          email: string;
+          phone: string | null;
+          subject: string;
+          message: string;
+          is_read: boolean;
+          created_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["contact_messages"]["Row"], "id" | "is_read" | "created_at"> & {
+          id?: string;
+          is_read?: boolean;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["contact_messages"]["Insert"]>;
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
@@ -300,6 +318,7 @@ export type InstagramPost = Database["public"]["Tables"]["instagram_cache"]["Row
 export type Banner = Database["public"]["Tables"]["banners"]["Row"];
 export type SiteSetting = Database["public"]["Tables"]["site_settings"]["Row"];
 export type Document = Database["public"]["Tables"]["documents"]["Row"];
+export type ContactMessage = Database["public"]["Tables"]["contact_messages"]["Row"];
 
 // News com joins
 export type NewsWithCategory = News & {
