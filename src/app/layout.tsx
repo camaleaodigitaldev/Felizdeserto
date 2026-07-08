@@ -37,9 +37,7 @@ export const metadata: Metadata = {
     description: SITE.description,
     images: [
       {
-        url: "/og-default.jpg",
-        width: 1200,
-        height: 630,
+        url: SITE.brasaoUrl,
         alt: SITE.name,
       },
     ],
@@ -48,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${SITE.name} — ${SITE.slogan}`,
     description: SITE.description,
-    images: ["/og-default.jpg"],
+    images: [SITE.brasaoUrl],
   },
   alternates: {
     canonical: SITE.url,
