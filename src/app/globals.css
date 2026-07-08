@@ -117,13 +117,18 @@
 .news-body *[style*="text-align: right"]   { text-align: right;   }
 .news-body *[style*="text-align: left"]    { text-align: left;    }
 
-/* VLibras — fixado na parte inferior direita do site */
-[vw-access-button] {
+/* VLibras — fixado na parte inferior direita do site.
+   Seletores de alta especificidade para vencer o CSS do plugin,
+   que é injetado depois e reposiciona o botão. */
+div[vw] div[vw-access-button],
+[vw].enabled [vw-access-button],
+html body [vw-access-button] {
   position: fixed !important;
   bottom: 24px !important;
   top: auto !important;
   right: 0 !important;
   left: auto !important;
+  z-index: 2147483000 !important;
 }
 
 /* =============================================
