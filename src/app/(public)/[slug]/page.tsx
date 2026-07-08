@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import type { Metadata } from "next";
 import type { NewsWithCategory, NewsCategory } from "@/types/database";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 export const revalidate = 3600;
 
@@ -352,7 +353,7 @@ export default async function SecretariaDetailPage({ params }: Props) {
                   </div>
                   <div
                     className="prose prose-gray max-w-none prose-headings:text-brand-blue prose-a:text-brand-blue prose-img:rounded-xl"
-                    dangerouslySetInnerHTML={{ __html: sec.description }}
+                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(sec.description) }}
                   />
                 </section>
               )}
