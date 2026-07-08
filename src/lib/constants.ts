@@ -15,9 +15,11 @@ export const SITE = {
   prefeito: "Jorge Luiz Silva Nunes",
   vicePrefeito: "João Paulo",
   brasaoUrl:
-    "https://desohrdjqujmmplawntj.supabase.co/storage/v1/object/public/banners/c7b85a93-37ad-42ef-8c30-04d67014d40d/1783469035682-u4rcz85vaws.png",
+    "https://desohrdjqujmmplawntj.supabase.co/storage/v1/object/public/banners/Brasao%20de%20Feliz%20Deserto.png",
   bandeiraUrl:
     "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Bandeira_de_Feliz_Deserto_Alagoas.png/1920px-Bandeira_de_Feliz_Deserto_Alagoas.png",
+  logoUrl:
+    "https://desohrdjqujmmplawntj.supabase.co/storage/v1/object/public/banners/logo-2022feliznovo.png",
 };
 
 export const NAV_LINKS = [
