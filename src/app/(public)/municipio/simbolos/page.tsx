@@ -14,6 +14,45 @@ const SYMBOLS: { label: string; image: string | null }[] = [
   { label: "Logomarca", image: null },
 ];
 
+const HINO: string[][] = [
+  [
+    "Terra boa, gentil, carinhosa",
+    "Em que nós os teus filhos vivemos",
+    "Para todos és mãe amorosa",
+    "E felizes em ti nós seremos",
+  ],
+  [
+    "De Alagoas, recanto querido",
+    "Nós queremos pra sempre te amar",
+    "Ver-te grande, feliz destemido",
+    "E por ti com amor trabalhar",
+  ],
+  [
+    "Acordando as paragens dormentes",
+    "Brame o mar dadivoso ali perto",
+    "Somos de almas heróicas sementes",
+    "Nós teus filhos é Feliz Deserto",
+  ],
+  [
+    "Coqueirais em teus seios encerras",
+    "Flores mil os teus campos também",
+    "Não invejam teus filhos as terras",
+    "Nem os céus de outros povos de além",
+  ],
+  [
+    "É Maria, do céu mãe bondosa",
+    "Quem nos guia nos passos da vida",
+    "E por Ela, é terra ditosa",
+    "Terás força e amparo na lida",
+  ],
+  [
+    "Só por Deus, Santidade e Amor",
+    "Nós queremos alegres viver",
+    "O trabalho, a justiça, o valor",
+    "Nosso lema de glória hão de ser",
+  ],
+];
+
 export default function SimbolosPage() {
   return (
     <>
@@ -53,11 +92,24 @@ export default function SimbolosPage() {
           ))}
         </div>
 
-        <div className="prose prose-gray max-w-none prose-headings:text-brand-blue">
-          <h2>Hino Municipal</h2>
-          <p className="text-gray-500 italic">
-            A letra do Hino Municipal de Feliz Deserto será publicada em breve.
-          </p>
+        <div>
+          <h2 className="text-2xl font-bold text-brand-blue mb-1">Hino Municipal</h2>
+          <p className="text-sm text-gray-400 mb-6">Hino de Feliz Deserto</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-6">
+            {HINO.map((estrofe, i) => (
+              <div key={i} className="flex gap-3">
+                <span className="text-brand-gold font-bold select-none">{i + 1}</span>
+                <p className="text-gray-700 leading-relaxed">
+                  {estrofe.map((verso, j) => (
+                    <span key={j}>
+                      {verso}
+                      {j < estrofe.length - 1 && <br />}
+                    </span>
+                  ))}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
