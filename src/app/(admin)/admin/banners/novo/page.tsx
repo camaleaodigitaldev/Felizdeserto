@@ -42,6 +42,16 @@ export default function NovoBannerPage() {
     setError("");
     setSaving(true);
     try {
+      // Novo banner entra no fim da ordem (a ordenação é feita na lista).
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: last } = await (supabase as any)
+        .from("banners")
+        .select("display_order")
+        .order("display_order", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      const nextOrder = (last?.display_order ?? 0) + 1;
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { error: err } = await (supabase as any).from("banners").insert({
         title: data.title,
@@ -49,7 +59,7 @@ export default function NovoBannerPage() {
         image_url: data.image_url || null,
         link_url: data.link_url || null,
         link_label: data.link_label || null,
-        display_order: Number(data.display_order),
+        display_order: nextOrder,
         is_active: data.is_active,
         show_gradient: data.show_gradient,
         link_on_image: data.link_on_image,
@@ -191,18 +201,8 @@ export default function NovoBannerPage() {
             Configurações
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="label-base">Ordem de exibição</label>
-              <input
-                {...register("display_order", { valueAsNumber: true })}
-                type="number"
-                min={1}
-                className="input-base w-24"
-              />
-              <p className="text-xs text-gray-400 mt-1">Menor número = aparece primeiro</p>
-            </div>
-            <div className="flex items-center gap-3 pt-6">
+          <div className="grid grid-cols-1 gap-4">
+            <div className="flex items-center gap-3">
               <input
                 {...register("is_active")}
                 type="checkbox"
