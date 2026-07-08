@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   },
   description: SITE.description,
   icons: {
-    icon: SITE.brasaoUrl,
-    shortcut: SITE.brasaoUrl,
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
     apple: SITE.brasaoUrl,
   },
   keywords: [
