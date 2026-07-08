@@ -17,6 +17,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   }
 
+  // Verify authorization: apenas contas de staff ativas podem enviar arquivos
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await (supabase as any)
+    .from("profiles")
+    .select("is_active")
+    .eq("id", user.id)
+    .single();
+  if (!profile || !profile.is_active) {
+    return NextResponse.json({ error: "Acesso negado" }, { status: 403 });
+  }
+
   try {
     const body = await req.json();
     const { filename, contentType, bucket } = body as {
