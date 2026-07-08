@@ -34,7 +34,7 @@ export default async function AdminBannersPage() {
 
       <p className="text-xs text-gray-400 mt-6 text-center">
         Reordene os banners com as setas ▲▼. O primeiro da lista aparece primeiro no site.
-        Recomendado: imagens de <strong>1920×600px</strong> (proporção 16:5).
+        Recomendado: imagens de <strong>1920×768px</strong> (proporção 5:2).
       </p>
     </div>
   );

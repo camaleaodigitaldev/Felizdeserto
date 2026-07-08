@@ -113,7 +113,7 @@ export default function EditBannerPage() {
             )}
           />
           <p className="text-xs text-gray-400 mt-2">
-            Recomendado: <strong>1920 × 600 px</strong> (proporção 16:5) · PNG, JPG ou WEBP · até 10MB
+            Recomendado: <strong>1920 × 768 px</strong> (proporção 5:2) · PNG, JPG ou WEBP · até 10MB
           </p>
 
           <label className="flex items-start gap-3 mt-4 pt-4 border-t border-gray-100 cursor-pointer">
