@@ -49,6 +49,7 @@ export default function EditBannerPage() {
           link_label: data.link_label || null,
           display_order: Number(data.display_order),
           is_active: data.is_active,
+          show_gradient: data.show_gradient,
         })
         .eq("id", id);
       if (err) throw new Error(err.message);
@@ -114,6 +115,20 @@ export default function EditBannerPage() {
           <p className="text-xs text-gray-400 mt-2">
             Recomendado: <strong>1920 × 600 px</strong> (proporção 16:5) · PNG, JPG ou WEBP · até 10MB
           </p>
+
+          <label className="flex items-start gap-3 mt-4 pt-4 border-t border-gray-100 cursor-pointer">
+            <input
+              {...register("show_gradient")}
+              type="checkbox"
+              className="w-4 h-4 rounded accent-brand-blue mt-0.5"
+            />
+            <span className="text-sm">
+              <span className="font-medium text-gray-700">Aplicar gradiente escuro sobre a imagem</span>
+              <span className="block text-xs text-gray-400 mt-0.5">
+                Melhora a leitura do título e do botão. Desmarque para imagens que já têm texto próprio (ex: cartazes de campanhas).
+              </span>
+            </span>
+          </label>
         </div>
 
         {/* Content */}

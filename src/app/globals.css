@@ -117,11 +117,12 @@
 .news-body *[style*="text-align: right"]   { text-align: right;   }
 .news-body *[style*="text-align: left"]    { text-align: left;    }
 
-/* VLibras — canto inferior direito, acima do botão de acessibilidade */
+/* VLibras — fixado na parte inferior direita do site */
 [vw-access-button] {
+  position: fixed !important;
   bottom: 24px !important;
   top: auto !important;
-  right: 16px !important;
+  right: 0 !important;
   left: auto !important;
 }
 
@@ -214,7 +215,3 @@ html.a11y-links a {
   display: none;
 }
 
-/* VLibras — cola o botão na borda direita */
-[vw-access-button] {
-  right: 0 !important;
-}

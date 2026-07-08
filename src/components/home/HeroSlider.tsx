@@ -40,10 +40,14 @@ export default function HeroSlider({ banners }: Props) {
                   sizes="100vw"
                 />
               )}
-              {/* Overlay lateral esquerdo */}
-              <div className="absolute inset-0 bg-gradient-to-r from-brand-blue/70 via-brand-blue/30 to-transparent" />
-              {/* Overlay degradê preto inferior para legibilidade do texto */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
+              {banner.show_gradient && (
+                <>
+                  {/* Overlay lateral esquerdo */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-brand-blue/70 via-brand-blue/30 to-transparent" />
+                  {/* Overlay degradê preto inferior para legibilidade do texto */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
+                </>
+              )}
 
               {/* Content — canto inferior esquerdo */}
               <div className="absolute inset-0 flex items-end justify-start pb-6 sm:pb-8">
