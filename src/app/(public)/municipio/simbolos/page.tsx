@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const SYMBOLS: { label: string; image: string | null }[] = [
   { label: "Brasão de Armas", image: SITE.brasaoUrl },
-  { label: "Bandeira Municipal", image: null },
+  { label: "Bandeira Municipal", image: SITE.bandeiraUrl },
   { label: "Logomarca", image: null },
 ];
 
