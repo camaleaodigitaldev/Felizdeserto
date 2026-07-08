@@ -14,6 +14,8 @@ export const SITE = {
   transparencyUrl: "https://www.transparenciafelizdeserto.al.gov.br",
   prefeito: "Jorge Luiz Silva Nunes",
   vicePrefeito: "João Paulo",
+  brasaoUrl:
+    "https://desohrdjqujmmplawntj.supabase.co/storage/v1/object/public/banners/c7b85a93-37ad-42ef-8c30-04d67014d40d/1783469035682-u4rcz85vaws.png",
 };
 
 export const NAV_LINKS = [
