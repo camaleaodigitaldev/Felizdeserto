@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
+import { sanitizeHtml } from "@/lib/sanitize";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import type { Metadata } from "next";
@@ -169,7 +170,7 @@ export default async function NewsArticlePage({ params }: Props) {
         {/* Body */}
         <div
           className="prose prose-gray max-w-none prose-headings:text-brand-blue prose-a:text-brand-blue prose-img:rounded-xl news-body"
-          dangerouslySetInnerHTML={{ __html: news.body }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(news.body) }}
         />
 
         {/* Share */}
