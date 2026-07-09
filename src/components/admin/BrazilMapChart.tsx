@@ -10,7 +10,7 @@ import {
 } from "react-simple-maps";
 
 const BRAZIL_TOPO =
-  "https://raw.githubusercontent.com/deldersveld/topojson/master/countries/brazil/brazil-states.json";
+  "https://cdn.jsdelivr.net/gh/deldersveld/topojson@master/countries/brazil/brazil-states.json";
 
 // Bounding box aproximado de Alagoas
 const isInAlagoas = (lat: number, lng: number) =>
